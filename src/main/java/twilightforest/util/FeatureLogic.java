@@ -15,7 +15,7 @@ import java.util.function.Predicate;
  * Feature Utility methods that don't invoke placement. For placement see FeaturePlacers
  */
 public final class FeatureLogic {
-    public static final Predicate<BlockState> IS_REPLACEABLE_AIR = state -> state.getMaterial().isReplaceable() || state.isAir();
+    public static final Predicate<BlockState> IS_REPLACEABLE_AIR = state -> state.canBeReplaced() || state.isAir();
     public static final Predicate<BlockState> ROOT_SHOULD_SKIP = state -> state.is(BlockTagGenerator.ROOT_TRACE_SKIP);
     public static boolean hasEmptyHorizontalNeighbor(LevelSimulatedReader worldReader, BlockPos pos) {
         return worldReader.isStateAtPosition(pos.north(), IS_REPLACEABLE_AIR)
@@ -45,7 +45,7 @@ public final class FeatureLogic {
     }
 
     public static boolean worldGenReplaceable(BlockState state) {
-        return (state.getMaterial().isReplaceable() || state.is(BlockTagGenerator.WORLDGEN_REPLACEABLES)) && !state.is(BlockTags.FEATURES_CANNOT_REPLACE);
+        return (state.canBeReplaced() || state.is(BlockTagGenerator.WORLDGEN_REPLACEABLES)) && !state.is(BlockTags.FEATURES_CANNOT_REPLACE);
     }
 
     /**

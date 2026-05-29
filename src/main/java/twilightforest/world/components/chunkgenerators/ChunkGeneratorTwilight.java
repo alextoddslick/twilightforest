@@ -494,7 +494,7 @@ public class ChunkGeneratorTwilight extends ChunkGeneratorWrapper {
 		for (int y = 0; y < mazeHeight; y++) {
 			BlockState b = primer.getBlockState(withY(primer.getCenter().getWorldPosition().offset(x, 0, z), y));
 			if(!primer.getBiome(withY(primer.getCenter().getWorldPosition().offset(x, 0, z), y)).is(BiomeKeys.STREAM)) {
-				if (b.isAir() || b.getMaterial().isLiquid()) {
+				if (b.isAir() || b.liquid()) {
 					primer.setBlock(withY(primer.getCenter().getWorldPosition().offset(x, 0, z), y), Blocks.STONE.defaultBlockState(), 3);
 				}
 			}
@@ -503,7 +503,7 @@ public class ChunkGeneratorTwilight extends ChunkGeneratorWrapper {
 		for (int y = mazeHeight; y <= 127; y++) {
 			BlockState b = primer.getBlockState(withY(primer.getCenter().getWorldPosition().offset(x, 0, z), y));
 			if(!primer.getBiome(withY(primer.getCenter().getWorldPosition().offset(x, 0, z), y)).is(BiomeKeys.STREAM)) {
-				if (!b.isAir() && !b.getMaterial().isLiquid()) {
+				if (!b.isAir() && !b.liquid()) {
 					primer.setBlock(withY(primer.getCenter().getWorldPosition().offset(x, 0, z), y), Blocks.AIR.defaultBlockState(), 3);
 				}
 			}
@@ -786,7 +786,7 @@ public class ChunkGeneratorTwilight extends ChunkGeneratorWrapper {
 					BlockPos pos = primer.getCenter().getWorldPosition().offset(dX, dY, dZ);
 
 					// Skip any blocks over water
-					if (chunk.getBlockState(pos).getMaterial().isLiquid())
+					if (chunk.getBlockState(pos).liquid())
 						continue;
 
 					// just use the same noise generator as the terrain uses for stones

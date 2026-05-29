@@ -211,7 +211,7 @@ public class CharmEvents {
 
 			do {
 				pos.move(0, 1, 0);
-			} while (!level.getBlockState(pos).getMaterial().isReplaceable());
+			} while (!level.getBlockState(pos).canBeReplaced());
 
 			BlockPos immutablePos = pos.immutable();
 			FluidState fluidState = level.getFluidState(immutablePos);

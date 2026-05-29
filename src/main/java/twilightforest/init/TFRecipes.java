@@ -1,5 +1,7 @@
 package twilightforest.init;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -11,8 +13,8 @@ import twilightforest.TwilightForestMod;
 import twilightforest.item.recipe.*;
 
 public class TFRecipes {
-	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TwilightForestMod.ID);
-	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, TwilightForestMod.ID);
+	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, TwilightForestMod.ID);
+	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, TwilightForestMod.ID);
 
 	public static final RegistryObject<SimpleRecipeSerializer<?>> MAGIC_MAP_CLONING_RECIPE = RECIPE_SERIALIZERS.register("magic_map_cloning_recipe", () -> new SimpleRecipeSerializer<>(MagicMapCloningRecipe::new));
 	public static final RegistryObject<SimpleRecipeSerializer<?>> MAZE_MAP_CLONING_RECIPE = RECIPE_SERIALIZERS.register("maze_map_cloning_recipe", () -> new SimpleRecipeSerializer<>(MazeMapCloningRecipe::new));

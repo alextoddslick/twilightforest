@@ -132,7 +132,7 @@ public abstract class TemplateFeature<T extends FeatureConfiguration> extends Fe
 
     private static boolean isAreaClear(LevelAccessor world, BlockPos min, BlockPos max) {
         for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
-            if (!world.getBlockState(pos).getMaterial().isReplaceable()) {
+            if (!world.getBlockState(pos).canBeReplaced()) {
                 return false;
             }
         }

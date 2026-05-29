@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  *
  * <h2>Usage (mirrors the Forge call shape)</h2>
  * <pre>{@code
- * // Forge:  DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MODID)
+ * // Forge:  DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MODID)
  * public static final DeferredRegister<SoundEvent> SOUNDS =
  *         DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, TwilightForestMod.ID);
  *

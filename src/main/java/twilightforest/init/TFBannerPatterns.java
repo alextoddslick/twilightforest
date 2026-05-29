@@ -1,5 +1,7 @@
 package twilightforest.init;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import twilightforest.util.DeferredRegister;
@@ -7,7 +9,7 @@ import twilightforest.util.RegistryObject;
 import twilightforest.TwilightForestMod;
 
 public class TFBannerPatterns {
-	public static final DeferredRegister<BannerPattern> BANNER_PATTERNS = DeferredRegister.create(Registry.BANNER_PATTERN_REGISTRY, TwilightForestMod.ID);
+	public static final DeferredRegister<BannerPattern> BANNER_PATTERNS = DeferredRegister.create(BuiltInRegistries.BANNER_PATTERN, TwilightForestMod.ID);
 
 	public static final RegistryObject<BannerPattern> NAGA = BANNER_PATTERNS.register("naga", () -> new BannerPattern("tfn"));
 	public static final RegistryObject<BannerPattern> LICH = BANNER_PATTERNS.register("lich", () -> new BannerPattern("tfl"));

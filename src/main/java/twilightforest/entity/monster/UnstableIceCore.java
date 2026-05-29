@@ -132,7 +132,7 @@ public class UnstableIceCore extends BaseIceMob {
 	}
 
 	private boolean shouldTransformGlass(BlockState state, BlockPos pos) {
-		return state.getBlock() != Blocks.AIR && isBlockNormalBounds(state, pos) && (!state.getMaterial().isSolidBlocking() || state.getMaterial() == Material.LEAVES || state.is(Blocks.ICE) || state.is(TFBlocks.AURORA_BLOCK.get()));
+		return state.getBlock() != Blocks.AIR && isBlockNormalBounds(state, pos) && (!state.isSolid() || state.getMaterial() == Material.LEAVES || state.is(Blocks.ICE) || state.is(TFBlocks.AURORA_BLOCK.get()));
 	}
 
 	private boolean isBlockNormalBounds(BlockState state, BlockPos pos) {

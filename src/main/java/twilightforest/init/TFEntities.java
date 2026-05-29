@@ -1,5 +1,7 @@
 package twilightforest.init;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SilverfishModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -43,8 +45,8 @@ import java.util.function.BooleanSupplier;
 @Mod.EventBusSubscriber(modid = TwilightForestMod.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TFEntities {
 
-	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, TwilightForestMod.ID);
-	public static final DeferredRegister<Item> SPAWN_EGGS = DeferredRegister.create(ForgeRegistries.ITEMS, TwilightForestMod.ID);
+	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, TwilightForestMod.ID);
+	public static final DeferredRegister<Item> SPAWN_EGGS = DeferredRegister.create(BuiltInRegistries.ITEM, TwilightForestMod.ID);
 
 	public static final RegistryObject<EntityType<Adherent>> ADHERENT = make(TFEntityNames.ADHERENT, Adherent::new, MobCategory.MONSTER, 0.8F, 2.2F, 0x0a0000, 0x00008b);
 	public static final RegistryObject<EntityType<AlphaYeti>> ALPHA_YETI = make(TFEntityNames.ALPHA_YETI, AlphaYeti::new, MobCategory.MONSTER, 3.8F, 5.0F, true, 0xcdcdcd, 0x29486e);

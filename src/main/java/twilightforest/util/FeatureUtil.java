@@ -38,7 +38,7 @@ public final class FeatureUtil {
 
 					for (int cy = 0; cy < height; cy++) {
 						// blank space above?
-						if (!world.isEmptyBlock(pos_.above(cy)) && !world.getBlockState(pos_.above(cy)).getMaterial().isReplaceable()) {
+						if (!world.isEmptyBlock(pos_.above(cy)) && !world.getBlockState(pos_.above(cy)).canBeReplaced()) {
 							if(underwaterAllowed && world.getBlockState(pos_.above(cy)).getMaterial() == Material.WATER) {
 								continue;
 							}
@@ -109,7 +109,7 @@ public final class FeatureUtil {
 	public static boolean isNearSolid(LevelReader world, BlockPos pos) {
 		for (Direction e : Direction.values()) {
 			if (world.hasChunkAt(pos.relative(e))
-					&& world.getBlockState(pos.relative(e)).getMaterial().isSolid()) {
+					&& world.getBlockState(pos.relative(e)).isSolid()) {
 				return true;
 			}
 		}

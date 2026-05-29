@@ -179,7 +179,7 @@ public class OreMagnetItem extends Item {
 				BlockPos replacePos = coord.offset(offX, offY, offZ);
 				BlockState replaceState = level.getBlockState(replacePos);
 
-				if (isReplaceable(replaceState) || replaceState.getMaterial().isReplaceable() || replaceState.isAir()) {
+				if (isReplaceable(replaceState) || replaceState.canBeReplaced() || replaceState.isAir()) {
 					level.setBlock(coord, replacementBlock, 2);
 
 					// set close to ore material

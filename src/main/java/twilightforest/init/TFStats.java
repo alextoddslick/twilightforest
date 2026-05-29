@@ -1,5 +1,7 @@
 package twilightforest.init;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class TFStats {
 
-	public static final DeferredRegister<ResourceLocation> STATS = DeferredRegister.create(Registry.CUSTOM_STAT_REGISTRY, TwilightForestMod.ID);
+	public static final DeferredRegister<ResourceLocation> STATS = DeferredRegister.create(BuiltInRegistries.CUSTOM_STAT, TwilightForestMod.ID);
 	private static final List<Runnable> STAT_SETUP = new ArrayList<>();
 
 	public static final RegistryObject<ResourceLocation> BUGS_SQUISHED = makeTFStat("bugs_squished");

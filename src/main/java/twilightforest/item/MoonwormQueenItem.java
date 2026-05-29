@@ -77,7 +77,7 @@ public class MoonwormQueenItem extends Item {
 		Player player = context.getPlayer();
 		BlockPlaceContext blockItemUseContext = new BlockPlaceContext(context);
 
-		if (!state.getMaterial().isReplaceable()) {
+		if (!state.canBeReplaced()) {
 			pos = pos.relative(context.getClickedFace());
 		}
 

@@ -549,7 +549,7 @@ public class Hydra extends Mob implements Enemy, EnforcedHomePoint {
 		for (int dx = minX; dx <= maxX; ++dx) {
 			for (int dz = minZ; dz <= maxZ; ++dz) {
 				total++;
-				if (this.level().getBlockState(new BlockPos(dx, dy, dz)).getMaterial().isSolid()) {
+				if (this.level().getBlockState(new BlockPos(dx, dy, dz)).isSolid()) {
 					solid++;
 				}
 			}
