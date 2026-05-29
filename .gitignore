@@ -17,7 +17,7 @@ out
 build
 .gradle
 local.gradle
-settings.gradle
+# NOTE: settings.gradle is REQUIRED by Fabric Loom and must be committed (was ignored under ForgeGradle)
 
 # other
 eclipse

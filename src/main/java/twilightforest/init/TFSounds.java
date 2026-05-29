@@ -1,16 +1,17 @@
 package twilightforest.init;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.animal.Parrot;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import twilightforest.TwilightForestMod;
+import twilightforest.util.DeferredRegister;
+import twilightforest.util.RegistryObject;
 
 public final class TFSounds {
 	
-	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, TwilightForestMod.ID);
+	// Forge: DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ...) → Fabric: BuiltInRegistries.SOUND_EVENT
+	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, TwilightForestMod.ID);
 
 	public static final RegistryObject<SoundEvent> ACID_RAIN_BURNS = createEvent("entity.twilightforest.acid_rain");
 	public static final RegistryObject<SoundEvent> ALPHAYETI_ALERT = createEvent("entity.twilightforest.alphayeti.alert");
@@ -296,7 +297,8 @@ public final class TFSounds {
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_MOTION = createEvent("music_disc.twilightforest.motion");
 
 	private static RegistryObject<SoundEvent> createEvent(String sound) {
-		return SOUNDS.register(sound, () -> new SoundEvent(TwilightForestMod.prefix(sound)));
+		// 1.20 change: the SoundEvent constructor is private; use the factory.
+		return SOUNDS.register(sound, () -> SoundEvent.createVariableRangeEvent(TwilightForestMod.prefix(sound)));
 	}
 
 	public static void registerParrotSounds() {

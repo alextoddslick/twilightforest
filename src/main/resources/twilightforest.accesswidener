@@ -1,0 +1,118 @@
+accessWidener	v2	named
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Twilight Forest — Fabric access widener (ported from META-INF/accesstransformer.cfg)
+#
+# The Forge branch used an access transformer with SRG names (f_xxxxx_, m_xxxxx_).
+# This widener uses OFFICIAL MOJANG (named) names — required because the project
+# compiles against loom.officialMojangMappings().
+#
+# CONVERSION NOTES
+#  * Class names are NOT obfuscated, so AT method/field *descriptors* are already
+#    mojmap-valid and were copied verbatim (just `.`→`/`).
+#  * The AT comments (e.g. "# skyBuffer") gave the mojmap member name — those are
+#    pre-filled below so migration is fill-in-descriptor, not rediscovery.
+#  * Forge AT → widener mapping:
+#       public  CLASS            -> accessible class
+#       public  field            -> accessible field
+#       public-f field           -> accessible field + mutable field
+#       public/protected method  -> accessible method   (+ extendable method if overridden)
+#  * Loom FAILS the build if a widener entry targets a member that does not exist
+#    in 1.20.1. Several 1.19.2 entries are GONE in 1.20.1 (flagged ⚠ REMOVED/CHANGED
+#    below) and MUST stay disabled until the using code is rewritten.
+#
+# STRATEGY: entries are activated incrementally as each using class is ported and
+# its compile error appears. Only version-stable, descriptor-complete entries are
+# active now; the rest are staged as comments with everything pre-resolved.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── ACTIVE (version-stable, no descriptor needed) ────────────────────────────
+# CarminiteGhastguard
+accessible	class	net/minecraft/world/entity/monster/Ghast$GhastLookGoal
+# GroundAttackGoal / NoClipMoveHelper
+accessible	class	net/minecraft/world/entity/ai/control/MoveControl$Operation
+# TFMaze
+accessible	class	net/minecraft/world/level/levelgen/structure/StructurePiece$BlockSelector
+
+# ── STAGED: METHODS (class+name+descriptor all known — activate when ported) ──
+# Forge `accessible method` form is: accessible method <class> <mojmapName> <descriptor>
+# Add `extendable method` instead/also when the method is OVERRIDDEN in a TF subclass.
+#
+# TFEventListener — LivingEntity.isDamageSourceBlocked
+# accessible	method	net/minecraft/world/entity/LivingEntity	isDamageSourceBlocked	(Lnet/minecraft/world/damagesource/DamageSource;)Z   # ⚠ CHANGED: damage system reworked in 1.19.4/1.20 — verify name/sig
+# Bighorn — Sheep.getOffspringColor
+# accessible	method	net/minecraft/world/entity/animal/Sheep	getOffspringColor	(Lnet/minecraft/world/entity/animal/Animal;Lnet/minecraft/world/entity/animal/Animal;)Lnet/minecraft/world/item/DyeColor;
+# GoblinKnight — LivingEntity.breakItem
+# accessible	method	net/minecraft/world/entity/LivingEntity	breakItem	(Lnet/minecraft/world/item/ItemStack;)V
+# KnightPhantom/Minotaur — Mob.maybeDisableShield
+# accessible	method	net/minecraft/world/entity/Mob	maybeDisableShield	(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)V
+# MinoshroomModel — HumanoidModel.poseRightArm / poseLeftArm  (OVERRIDDEN → extendable)
+# extendable	method	net/minecraft/client/model/HumanoidModel	poseRightArm	(Lnet/minecraft/world/entity/LivingEntity;)V
+# extendable	method	net/minecraft/client/model/HumanoidModel	poseLeftArm	(Lnet/minecraft/world/entity/LivingEntity;)V
+# RedcapModel — HumanoidModel.getAttackArm
+# accessible	method	net/minecraft/client/model/HumanoidModel	getAttackArm	(Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/world/entity/HumanoidArm;
+# GameRules.BooleanValue.create (static)
+# accessible	method	net/minecraft/world/level/GameRules$BooleanValue	create	(Z)Lnet/minecraft/world/level/GameRules$Type;   # ⚠ static — do NOT mark extendable
+# TrunkPlacerType.<init>
+# accessible	method	net/minecraft/world/level/levelgen/feature/trunkplacers/TrunkPlacerType	<init>	(Lcom/mojang/serialization/Codec;)V
+# TFTeleporter — ChunkMap.isExistingChunkFull
+# accessible	method	net/minecraft/server/level/ChunkMap	isExistingChunkFull	(Lnet/minecraft/world/level/ChunkPos;)Z
+# TFBlocks — ComposterBlock.add
+# accessible	method	net/minecraft/world/level/block/ComposterBlock	add	(FLnet/minecraft/world/level/ItemLike;)V   # ⚠ CHANGED sig in 1.20 (float→? ) — verify
+# TFBlocks — FireBlock.setFlammable
+# accessible	method	net/minecraft/world/level/block/FireBlock	setFlammable	(Lnet/minecraft/world/level/block/Block;II)V
+# TreePlacer — TreeFeature.updateLeaves
+# accessible	method	net/minecraft/world/level/levelgen/feature/TreeFeature	updateLeaves	(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;)Lnet/minecraft/world/phys/shapes/DiscreteVoxelShape;   # ⚠ CHANGED sig in 1.19.4/1.20
+# Heightmap.setHeight
+# accessible	method	net/minecraft/world/level/levelgen/Heightmap	setHeight	(III)V
+# TFCavesCarver — WorldCarver.isDebugEnabled / getCarveState
+# accessible	method	net/minecraft/world/level/levelgen/carver/WorldCarver	isDebugEnabled	(Lnet/minecraft/world/level/levelgen/carver/CarverConfiguration;)Z
+# accessible	method	net/minecraft/world/level/levelgen/carver/WorldCarver	getCarveState	(Lnet/minecraft/world/level/levelgen/carver/CarvingContext;Lnet/minecraft/world/level/levelgen/carver/CarverConfiguration;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/Aquifer;)Lnet/minecraft/world/level/block/state/BlockState;
+# SpecialFlowerPotBlock — FlowerPotBlock.isEmpty
+# accessible	method	net/minecraft/world/level/block/FlowerPotBlock	isEmpty	()Z
+# WorldUtil — ChunkMap.generator
+# accessible	method	net/minecraft/server/level/ChunkMap	generator	()Lnet/minecraft/world/level/chunk/ChunkGenerator;   # ⚠ ChunkMap.generator removed in 1.20 (moved to ChunkGeneratorStructureState) — rewrite caller
+# TFWeatherRenderer — Biome.getTemperature
+# accessible	method	net/minecraft/world/level/biome/Biome	getTemperature	(Lnet/minecraft/core/BlockPos;)F   # ⚠ CHANGED: now takes (BlockPos, int seaLevel) in 1.20
+# TowerWingComponent — Painting.setVariant
+# accessible	method	net/minecraft/world/entity/decoration/Painting	setVariant	(Lnet/minecraft/core/Holder;)V
+# ChunkGenerator.getPlacementsForStructure
+# accessible	method	net/minecraft/world/level/chunk/ChunkGenerator	getPlacementsForStructure	(Lnet/minecraft/core/Holder;Lnet/minecraft/world/level/levelgen/RandomState;)Ljava/util/List;   # ⚠ sig adds SectionPos in 1.20
+# Gui.canRenderCrosshairForSpectator
+# accessible	method	net/minecraft/client/gui/Gui	canRenderCrosshairForSpectator	(Lnet/minecraft/world/phys/HitResult;)Z
+# ProtectionParticle — SuspendedTownParticle.<init>
+# accessible	method	net/minecraft/client/particle/SuspendedTownParticle	<init>	(Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDD)V
+
+# ── STAGED: FIELDS (mojmap NAME known from AT comment; DESCRIPTOR must be filled) ──
+# Form: accessible field <class> <name> <descriptor>   (+ mutable field for public-f)
+# Fill <descriptor> from the field's type when porting the using class.
+#
+# TFSkyRenderer            LevelRenderer.skyBuffer / darkBuffer       # ⚠ CHANGED in 1.20 sky-rendering
+# TFStructureComponent     StructurePiece.rotation/mirror/orientation
+# PlayerHelper             ClientAdvancements.advancementToProgress (renamed `progress` in 1.20?) ⚠ verify
+# Hydra                    Entity.dimensions
+# TFClientEvents           Gui.vignetteBrightness                     # ⚠ Gui heavily refactored in 1.20.1
+# GoalSelector.goals       GoalSelector.availableGoals                # ⚠ renamed in 1.20 (now `availableGoals`→ check)
+# TrunkMoverUpper          TrunkPlacer.baseHeight/heightRandA/heightRandB
+# BlockTagGenerator        BlockBehaviour.material                    # ⚠ REMOVED in 1.20 — Material class deleted; rewrite caller
+# Parrot                   Parrot.MOB_SOUND_MAP
+# TwilightForestMod        AxeItem.STRIPPABLES (public-f → +mutable)
+# TFEventListener          Inventory.player (public-f → +mutable)
+# MazeMapItem              MapItemSavedData.decorations               # ⚠ map decorations reworked in 1.20.2 (ok in 1.20.1)
+# TFMazeMapData            MapItemSavedData x/z/bannerMarkers/frameMarkers/trackedDecorationCount (public-f → +mutable) + <init>
+# NoiseBasedChunkGenerator NoiseBasedChunkGenerator.defaultBlock
+# Spawner                  BaseSpawner.maxNearbyEntities/spawnCount/spawnRange
+# TFCavesCarver            CaveCarverConfiguration.floorLevel
+# TargetedRotProcessor     BlockRotProcessor.integrity
+# ChestRenderer            ModelBakery.UNREFERENCED_TEXTURES
+# TFBlendedNoise           BlendedNoise.mainNoise/maxLimitNoise/minLimitNoise/xzScale/yScale/xzFactor/yFactor
+# leaf/grass colors        Biome.TEMPERATURE_NOISE
+# LegacyStructureFeature   StructurePiecesBuilder.pieces
+# TreeDecorator.Context    TreeDecorator$Context.decorationSetter
+# DispenserBlock           DispenserBlock.DISPENSER_REGISTRY
+#
+# ── STAGED: class-level wildcards / whole-class (no AW equivalent) ────────────
+# CinderFurnaceBlockEntity  `protected AbstractFurnaceBlockEntity *`  → AW has NO wildcard;
+#                           widen each accessed member individually, or use a Mixin accessor.
+# ChunkGeneratorTFBase      `public-f NoiseBasedChunkGenerator` (whole class) → widen specific members.
+# TFStructureStart          `public-f StructureStart` (whole class) → widen specific members.

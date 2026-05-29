@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "twilightforest",
+  "version": "${version}",
+  "name": "The Twilight Forest",
+  "description": "An enchanted forest dimension. (Fabric port for 1.20.1, in progress — ported from the 1.19.2 Forge branch.)",
+  "authors": [
+    "Benimatic (Ben Mazur)",
+    "AtomicBlom", "Drullkus", "Killer_Demon", "quadraxis", "Tamaized",
+    "williewillus", "Andromander", "GizmoTheMoonPig", "Jodlodi"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/the-twilight-forest",
+    "issues": "https://github.com/TeamTwilight/twilightforest/issues",
+    "sources": "https://github.com/TeamTwilight/twilightforest"
+  },
+  "license": "LGPL-2.1-only",
+  "icon": "twilightforest_logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "twilightforest.TwilightForest"
+    ],
+    "client": [
+      "twilightforest.client.TFClient"
+    ]
+  },
+  "mixins": [
+    "twilightforest.mixins.json",
+    {
+      "config": "twilightforest.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "accessWidener": "twilightforest.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
+  },
+  "suggests": {
+    "trinkets": "*"
+  }
+}

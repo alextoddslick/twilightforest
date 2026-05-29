@@ -1,198 +1,116 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net/' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
-    }
+plugins {
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'maven-publish'
 }
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'maven-publish'
-apply plugin: 'eclipse'
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = (hasProperty("CIRevision") ? CIRevision : mod_version)
-group = group_name
-archivesBaseName = "${mod_id}-${minecraft_sub_version}"
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+version = (hasProperty("CIRevision") ? CIRevision : project.mod_version)
+group = project.maven_group
 
-compileJava.options.compilerArgs << "-Xlint:all,-classfile,-processing,-deprecation" << "-Werror"
+base {
+    archivesName = project.archives_base_name
+}
 
-minecraft {
-    //mappings channel: "official", version: "1.19.2"
-    // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data
-    mappings channel: 'parchment', version: '1.18.2-2022.07.03-1.19.2'
+java {
+    // Twilight Forest targets Java 17 for MC 1.20.1.
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    // Generate a sources jar for downstream debugging.
+    withSourcesJar()
+}
 
-    //version = minecraft_version + "-" + forge_version // grab latest forge
-    //makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+loom {
+    // Forge access transformer (src/main/resources/META-INF/accesstransformer.cfg) was
+    // converted to a Fabric access widener. See that file for the SRG→Mojmap migration notes.
+    accessWidenerPath = file("src/main/resources/twilightforest.accesswidener")
 
     runs {
         client {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'fml.earlyprogresswindow', 'false'
-            property 'mixin.env.disableRefMap', 'true'
-
-            mods {
-                twilightforest {
-                    source sourceSets.main
-                }
-            }
+            client()
+            ideConfigGenerated true
+            runDir "run"
         }
-
         server {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.disableRefMap', 'true'
-
-            mods {
-                twilightforest {
-                    source sourceSets.main
-                }
-            }
+            server()
+            ideConfigGenerated true
+            runDir "run"
         }
-
-        gameTestServer {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.enabledGameTestNamespaces', 'twilightforest'
-
-            mods {
-                twilightforest {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-
-            properties 'fml.earlyprogresswindow': 'false'
-            property 'mixin.env.disableRefMap', 'true'
-
-            mods {
-                twilightforest {
-                    source sourceSets.main
-                }
-            }
-            args '--mod', 'twilightforest', '--all',
-                    '--existing', '"' + file('src/main/resources/') + '"',
-                    '--existing', '"' + file('src/generated/resources/') + '"',
-                    '--output', '"' + file('src/generated/resources/') + '"'
+        // Fabric datagen entrypoint (replaces Forge GatherDataEvent). Wired up in the datagen phase.
+        datagen {
+            inherit server
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+            vmArg "-Dfabric-api.datagen.modid=twilightforest"
+            runDir "build/datagen"
         }
     }
 }
 
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
-compileJava {
-    options.encoding = 'UTF-8'
-}
-
-jar {
-    classifier = 'universal'
-    manifest {
-        attributes(["Specification-Title"     : "Twilight Forest",
-                    "Specification-Vendor"    : "TeamTwilight",
-                    "Specification-Version"   : "${version}",
-                    "Implementation-Title"    : project.name,
-                    "Implementation-Version"  : "${version}",
-                    "Implementation-Vendor"   : "TeamTwilight",
-                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
+// Datagen output is bundled as resources (matches the Forge branch layout).
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/generated/resources'
+        }
     }
 }
 
 repositories {
-    maven {
-        name 'progwm\'s Maven' // JEI
-        url 'https://dvs1.progwml6.com/files/maven'
-    }
-    maven {
-        name 'tterrag\'s Maven' // CTM
-        url 'https://maven.tterrag.com/'
-    }
-    maven {
-        name 'theillusivec4\'s Maven' // Curios
-        url 'https://maven.theillusivec4.top/'
-    }
-    maven {
-        name 'Tama\'s Maven' // Cross-Dim Commands
-        url "https://maven.tamaized.com/releases"
-    }
-    maven {
-        name 'Curseforge Maven' // Jade
-        url "https://www.cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
+    maven { name 'Fabric';        url 'https://maven.fabricmc.net/' }
+    maven { name 'Parchment';     url 'https://maven.parchmentmc.org' }
+    // ── Fabric-ecosystem compat mavens (enable as compat modules are ported) ──
+    // Trinkets (replaces Curios)
+    maven { name 'Ladysnake';     url 'https://maven.ladysnake.org/releases' }   // Cardinal Components, Trinkets dep
+    maven { name 'Shedaniel';     url 'https://maven.shedaniel.me/' }            // Cloth Config
+    maven { name 'TerraformersMC'; url 'https://maven.terraformersmc.com/releases/' } // Mod Menu, Trinkets
+    maven { name 'Curseforge';    url 'https://www.cursemaven.com'
+        content { includeGroup "curse.maven" } }
 }
 
 dependencies {
-    // progwml6
-    implementation fg.deobf("mezz.jei:jei-${project.minecraft_sub_version}-forge:${jei_version}")
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    // OFFICIAL MOJANG MAPPINGS — keeps vanilla names identical to the Forge source.
+    // Parchment (param names) can be layered on later via loom.layered { ... }.
+    mappings loom.officialMojangMappings()
 
-    // tterrag
-    //implementation fg.deobf("team.chisel.ctm:CTM:${minecraft_version}-${ctm_version}")
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // theillusivec4
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${project.minecraft_sub_version}-${curios_version}")
-
-    //curse maven
-    implementation fg.deobf("curse.maven:jade-324717:4054920-api-4054921")
-    runtimeOnly fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:3944903")
-
-    //bookshelf apparently prevents datagen from running, uncomment these if you need to test botany pot compat
-    //runtimeOnly fg.deobf("curse.maven:bookshelf-228525:3964325")
-    //runtimeOnly fg.deobf("curse.maven:botanypots-353928:3974733")
-    compileOnly fg.deobf("curse.maven:the-one-probe-245211:3965693")
-
-    //mods we dont have compat with but are nice to have
-    runtimeOnly fg.deobf("team-twilight:crossdimcommands:${project.minecraft_version}-1.0")
-
-    minecraft "net.minecraftforge:forge:${project.minecraft_sub_version}-${project.forge_version}"
+    // ── Compat dependencies — uncomment per porting phase (see HANDOFF.md) ────
+    // modImplementation "dev.emi:trinkets:${project.trinkets_version}"                 // Curios → Trinkets
+    // modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinal_components_version}"
+    // modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cardinal_components_version}"
+    // modApi "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"  // Forge config → Cloth
+    // modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+    // modCompileOnly "mezz.jei:jei-${project.minecraft_version}-fabric-api:..."        // JEI (Fabric)
+    // modCompileOnly "curse.maven:jade-324717:..."                                     // Jade / WTHIT (TOP replacement)
 }
 
-jar.finalizedBy('reobfJar')
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release = 17
+    // NOTE: the Forge branch built with "-Werror -Xlint:all". That is intentionally
+    // dropped during the port so the large migration can land incrementally without
+    // every deprecation warning failing the build. Re-tighten once the port compiles.
+}
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            afterEvaluate {
-                artifact project.jar
-                artifact project.sourceJar
-            }
-            setGroupId 'teamtwilight'
-            setArtifactId project.mod_id
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
         }
     }
     repositories {
-        maven {
-            //url "file:///${project.projectDir}/mcmodsrepo"
-            url "https://modmaven.dev:443/artifactory/local-releases"
-            credentials {
-                username System.getenv('ARTIFACTORY_USER')
-                password System.getenv('ARTIFACTORY_PASS')
-            }
-        }
+        // Loom remaps the jar; publish target intentionally left as local until release.
+        mavenLocal()
     }
-}
-
-task sourceJar(type: Jar, dependsOn: 'classes') {
-    from sourceSets.main.allSource
-    classifier = 'sources'
 }
