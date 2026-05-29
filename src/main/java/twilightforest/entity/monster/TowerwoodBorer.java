@@ -127,10 +127,10 @@ public class TowerwoodBorer extends Monster {
 			} else {
 				RandomSource random = this.mob.getRandom();
 
-				if (random.nextInt(10) == 0 && ForgeEventFactory.getMobGriefingEvent(this.mob.getLevel(), this.mob)) {
+				if (random.nextInt(10) == 0 && ForgeEventFactory.getMobGriefingEvent(this.mob.level(), this.mob)) {
 					this.facing = Direction.getRandom(random);
 					BlockPos blockpos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
-					BlockState state = this.mob.getLevel().getBlockState(blockpos);
+					BlockState state = this.mob.level().getBlockState(blockpos);
 
 					// TF - Change block check
 					if (state.is(TFBlocks.TOWERWOOD.get())) {
@@ -154,7 +154,7 @@ public class TowerwoodBorer extends Monster {
 			if (!this.doMerge) {
 				super.start();
 			} else {
-				Level level = this.mob.getLevel();
+				Level level = this.mob.level();
 				BlockPos blockpos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
 				BlockState state = level.getBlockState(blockpos);
 
@@ -197,7 +197,7 @@ public class TowerwoodBorer extends Monster {
 
 			if (this.lookForFriends <= 0) {
 
-				Level world = this.borer.getLevel();
+				Level world = this.borer.level();
 				RandomSource random = this.borer.getRandom();
 				BlockPos pos = new BlockPos(this.borer.blockPosition());
 

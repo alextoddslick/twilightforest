@@ -24,13 +24,13 @@ public class UrGhastFireball extends LargeFireball implements ITFProjectile {
 
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
-		if (!this.getLevel().isClientSide() && !(result.getEntity() instanceof AbstractHurtingProjectile)) {
+		if (!this.level().isClientSide() && !(result.getEntity() instanceof AbstractHurtingProjectile)) {
 			// TF - up damage by 10
 			result.getEntity().hurt(DamageSource.fireball(this, this.getOwner()), 16.0F);
 			this.doEnchantDamageEffects((LivingEntity) this.getOwner(), result.getEntity());
 
-			boolean flag = ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this.getOwner());
-			this.getLevel().explode(null, this.getX(), this.getY(), this.getZ(), this.power, flag, flag ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE);
+			boolean flag = ForgeEventFactory.getMobGriefingEvent(this.level(), this.getOwner());
+			this.level().explode(null, this.getX(), this.getY(), this.getZ(), this.power, flag, flag ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE);
 			this.discard();
 		}
 	}
@@ -39,8 +39,8 @@ public class UrGhastFireball extends LargeFireball implements ITFProjectile {
 	protected void onHitBlock(BlockHitResult result) {
 		super.onHitBlock(result);
 		//explode and leave fire when hitting a block, but dont destroy them
-		boolean flag = ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this.getOwner());
-		this.getLevel().explode(null, this.getX(), this.getY(), this.getZ(), (float) this.power, flag, Explosion.BlockInteraction.NONE);
+		boolean flag = ForgeEventFactory.getMobGriefingEvent(this.level(), this.getOwner());
+		this.level().explode(null, this.getX(), this.getY(), this.getZ(), (float) this.power, flag, Explosion.BlockInteraction.NONE);
 		this.discard();
 	}
 

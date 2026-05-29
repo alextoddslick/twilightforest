@@ -21,7 +21,7 @@ public class RedcapPlantTNTGoal extends RedcapBaseGoal {
 				&& !this.redcap.heldTNT.isEmpty()
 				&& this.redcap.distanceToSqr(attackTarget) < 25
 				&& !isTargetLookingAtMe(attackTarget)
-				&& ForgeEventFactory.getMobGriefingEvent(this.redcap.getLevel(), this.redcap)
+				&& ForgeEventFactory.getMobGriefingEvent(this.redcap.level(), this.redcap)
 				&& !isLitTNTNearby(8)
 				&& findBlockTNTNearby(5) == null;
 	}
@@ -32,10 +32,10 @@ public class RedcapPlantTNTGoal extends RedcapBaseGoal {
 
 		this.redcap.setItemSlot(EquipmentSlot.MAINHAND, this.redcap.heldTNT);
 
-		if (this.redcap.getLevel().isEmptyBlock(entityPos)) {
+		if (this.redcap.level().isEmptyBlock(entityPos)) {
 			this.redcap.heldTNT.shrink(1);
 			this.redcap.playAmbientSound();
-			this.redcap.getLevel().setBlockAndUpdate(entityPos, Blocks.TNT.defaultBlockState());
+			this.redcap.level().setBlockAndUpdate(entityPos, Blocks.TNT.defaultBlockState());
 			this.redcap.gameEvent(GameEvent.BLOCK_PLACE);
 		}
 	}

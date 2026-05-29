@@ -109,7 +109,7 @@ public class FakeItemEntityRenderer implements IIngredientRenderer<FakeItemEntit
 	public void render(ItemEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int light) {
 		stack.pushPose();
 		ItemStack itemstack = entity.getItem();
-		BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(itemstack, entity.getLevel(), null, entity.getId());
+		BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(itemstack, entity.level(), null, entity.getId());
 		float f1 = Mth.sin((Objects.requireNonNull(Minecraft.getInstance().level).getGameTime() + partialTicks) / 10.0F + this.bobOffs) * 0.1F + 0.1F;
 		float f2 = bakedmodel.getTransforms().getTransform(ItemTransforms.TransformType.GROUND).scale.y();
 		stack.translate(0.0D, f1 + 0.25F * f2, 0.0D);

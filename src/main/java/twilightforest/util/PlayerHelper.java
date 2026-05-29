@@ -43,7 +43,7 @@ public class PlayerHelper {
 			ClientAdvancements manager = localPlayer.connection.getAdvancements();
 			return manager.getAdvancements().get(advancementLocation);
 		} else if (player instanceof ServerPlayer serverPlayer) {
-			ServerLevel world = serverPlayer.getLevel();
+			ServerLevel world = serverPlayer.level();
 			return world.getServer().getAdvancements().getAdvancement(advancementLocation);
 		}
 
@@ -81,7 +81,7 @@ public class PlayerHelper {
 			return false;
 		} else {
 			if (player instanceof ServerPlayer) {
-				ServerLevel world = ((ServerPlayer) player).getLevel();
+				ServerLevel world = ((ServerPlayer) player).level();
 				Advancement adv = world.getServer().getAdvancements().getAdvancement(advancementLocation);
 				return adv != null && ((ServerPlayer) player).getAdvancements().getOrStartProgress(adv).isDone();
 			}
@@ -107,7 +107,7 @@ public class PlayerHelper {
 				return false;
 			} else {
 				if (player instanceof ServerPlayer) {
-					ServerLevel world = ((ServerPlayer) player).getLevel();
+					ServerLevel world = ((ServerPlayer) player).level();
 					Advancement adv = world.getServer().getAdvancements().getAdvancement(advancementLocation);
 					return adv != null && ((ServerPlayer) player).getAdvancements().getOrStartProgress(adv).isDone();
 				}

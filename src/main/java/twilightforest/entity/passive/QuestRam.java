@@ -116,11 +116,11 @@ public class QuestRam extends Animal implements EnforcedHomePoint {
 
 	private void rewardQuest() {
 		// todo flesh the context out more
-		LootContext ctx = new LootContext.Builder((ServerLevel) this.getLevel()).withParameter(LootContextParams.THIS_ENTITY, this).create(LootContextParamSets.PIGLIN_BARTER);
-		ObjectArrayList<ItemStack> rewards = this.getLevel().getServer().getLootTables().get(TFLootTables.QUESTING_RAM_REWARDS).getRandomItems(ctx);
+		LootContext ctx = new LootContext.Builder((ServerLevel) this.level()).withParameter(LootContextParams.THIS_ENTITY, this).create(LootContextParamSets.PIGLIN_BARTER);
+		ObjectArrayList<ItemStack> rewards = this.level().getServer().getLootTables().get(TFLootTables.QUESTING_RAM_REWARDS).getRandomItems(ctx);
 		rewards.forEach(stack -> this.spawnAtLocation(stack, 1.0F));
 
-		for (ServerPlayer player : this.getLevel().getEntitiesOfClass(ServerPlayer.class, getBoundingBox().inflate(16.0D, 16.0D, 16.0D))) {
+		for (ServerPlayer player : this.level().getEntitiesOfClass(ServerPlayer.class, getBoundingBox().inflate(16.0D, 16.0D, 16.0D))) {
 			TFAdvancements.QUEST_RAM_COMPLETED.trigger(player);
 		}
 	}
@@ -216,8 +216,8 @@ public class QuestRam extends Animal implements EnforcedHomePoint {
 		float green = colorVal[1];
 		float blue = colorVal[2];
 
-		if (!this.getLevel().isClientSide()) {
-			for (ServerPlayer serverplayer : ((ServerLevel) this.getLevel()).players()) {
+		if (!this.level().isClientSide()) {
+			for (ServerPlayer serverplayer : ((ServerLevel) this.level()).players()) {
 				if (serverplayer.distanceToSqr(Vec3.atCenterOf(this.blockPosition())) < 4096.0D) {
 					ParticlePacket packet = new ParticlePacket();
 

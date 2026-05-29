@@ -127,7 +127,7 @@ public class LifedrainScepterItem extends Item {
 
 	@Override
 	public void onUsingTick(ItemStack stack, LivingEntity living, int count) {
-		Level level = living.getLevel();
+		Level level = living.level();
 
 		if (stack.getDamageValue() == this.getMaxDamage(stack)) {
 			// do not use

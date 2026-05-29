@@ -171,7 +171,7 @@ public class BlockChainGoblin extends Monster {
 		this.chainAngle += CHAIN_SPEED;
 		this.chainAngle %= 360;
 
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			this.entityData.set(DATA_CHAINLENGTH, (byte) Math.floor(this.getChainLength() * 127.0F));
 			this.entityData.set(DATA_CHAINPOS, (byte) Math.floor(this.getChainAngle() / 360.0F * 255.0F));
 		} else {
@@ -255,7 +255,7 @@ public class BlockChainGoblin extends Monster {
 	 * Check if the block is colliding with any nearby entities
 	 */
 	protected void applyBlockCollisions(Entity collider) {
-		List<Entity> list = this.getLevel().getEntities(collider, collider.getBoundingBox().inflate(0.2D, 0.0D, 0.2D));
+		List<Entity> list = this.level().getEntities(collider, collider.getBoundingBox().inflate(0.2D, 0.0D, 0.2D));
 
 		for (Entity entity : list) {
 			if (entity.isPushable()) {
@@ -303,7 +303,7 @@ public class BlockChainGoblin extends Monster {
 	 * Angle between 0 and 360 to place the chain at
 	 */
 	private float getChainAngle() {
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			return this.chainAngle;
 		} else {
 			return (this.entityData.get(DATA_CHAINPOS) & 0xFF) / 255.0F * 360.0F;
@@ -314,7 +314,7 @@ public class BlockChainGoblin extends Monster {
 	 * Between 0.0F and 2.0F, how long is the chain right now?
 	 */
 	private float getChainLength() {
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			if (this.isSwingingChain()) {
 				return 0.9F;
 			} else {

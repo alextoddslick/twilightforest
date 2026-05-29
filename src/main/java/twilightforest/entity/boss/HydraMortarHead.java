@@ -65,7 +65,7 @@ public class HydraMortarHead extends ThrowableProjectile {
 		if (this.isOnGround()) {
 			this.getDeltaMovement().multiply(0.9D, 0.9D, 0.9D);
 
-			if (!this.getLevel().isClientSide() && this.fuse-- <= 0) {
+			if (!this.level().isClientSide() && this.fuse-- <= 0) {
 				this.detonate();
 			}
 		}
@@ -102,7 +102,7 @@ public class HydraMortarHead extends ThrowableProjectile {
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		Entity entity = result.getEntity();
-		if (!this.getLevel().isClientSide() && this.getOwner() != null) {
+		if (!this.level().isClientSide() && this.getOwner() != null) {
 			if ((!(entity instanceof HydraMortarHead mortar) || mortar.getOwner().is(this.getOwner())) && !entity.is(this.getOwner()) && !this.isPartOfHydra(entity)) {
 				this.detonate();
 			}
@@ -126,13 +126,13 @@ public class HydraMortarHead extends ThrowableProjectile {
 
 	private void detonate() {
 		float explosionPower = megaBlast ? 4.0F : 0.1F;
-		boolean flag = ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this);
+		boolean flag = ForgeEventFactory.getMobGriefingEvent(this.level(), this);
 		Explosion.BlockInteraction flag1 = flag ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE;
-		this.getLevel().explode(this, this.getX(), this.getY(), this.getZ(), explosionPower, flag, flag1);
+		this.level().explode(this, this.getX(), this.getY(), this.getZ(), explosionPower, flag, flag1);
 
 		DamageSource src = new IndirectEntityDamageSource("onFire", this, getOwner()).setProjectile();
 
-		for (Entity nearby : this.getLevel().getEntities(this, this.getBoundingBox().inflate(1.0D, 1.0D, 1.0D))) {
+		for (Entity nearby : this.level().getEntities(this, this.getBoundingBox().inflate(1.0D, 1.0D, 1.0D))) {
 			if ((!nearby.fireImmune() || nearby instanceof Hydra || nearby instanceof HydraPart) && nearby.hurt(src, DIRECT_DAMAGE)) {
 				nearby.setSecondsOnFire(BURN_FACTOR);
 			}
@@ -145,7 +145,7 @@ public class HydraMortarHead extends ThrowableProjectile {
 	public boolean hurt(DamageSource source, float amount) {
 		super.hurt(source, amount);
 
-		if (source.getEntity() != null && !this.getLevel().isClientSide()) {
+		if (source.getEntity() != null && !this.level().isClientSide()) {
 			Vec3 vec3d = source.getEntity().getLookAngle();
 			if (vec3d != null) {
 				// reflect faster and more accurately

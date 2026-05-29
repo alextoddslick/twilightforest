@@ -55,7 +55,7 @@ public class MiscEvents {
 	@SubscribeEvent
 	public static void armorChanged(LivingEquipmentChangeEvent event) {
 		LivingEntity living = event.getEntity();
-		if (!living.getLevel().isClientSide() && living instanceof ServerPlayer) {
+		if (!living.level().isClientSide() && living instanceof ServerPlayer) {
 			TFAdvancements.ARMOR_CHANGED.trigger((ServerPlayer) living, event.getFrom(), event.getTo());
 		}
 

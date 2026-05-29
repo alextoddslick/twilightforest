@@ -58,7 +58,7 @@ public class CarminiteGolem extends Monster {
 	@Override
 	public boolean doHurtTarget(Entity entity) {
 		this.attackTimer = 10;
-		this.getLevel().broadcastEntityEvent(this, (byte) 4);
+		this.level().broadcastEntityEvent(this, (byte) 4);
 		boolean attackSuccess = super.doHurtTarget(entity);
 
 		if (attackSuccess) {
@@ -96,16 +96,16 @@ public class CarminiteGolem extends Monster {
 			int i = Mth.floor(this.getX());
 			int j = Mth.floor(this.getY() - 0.2D);
 			int k = Mth.floor(this.getZ());
-			BlockState state = this.getLevel().getBlockState(new BlockPos(i, j, k));
+			BlockState state = this.level().getBlockState(new BlockPos(i, j, k));
 
 			if (state.getMaterial() != Material.AIR) {
-				this.getLevel().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state), this.getX() + (this.getRandom().nextFloat() - 0.5D) * this.getBbWidth(), this.getBoundingBox().minY + 0.1D, this.getZ() + (this.getRandom().nextFloat() - 0.5D) * this.getBbWidth(), 4.0D * (this.getRandom().nextFloat() - 0.5D), 0.5D, (this.getRandom().nextFloat() - 0.5D) * 4.0D);
+				this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state), this.getX() + (this.getRandom().nextFloat() - 0.5D) * this.getBbWidth(), this.getBoundingBox().minY + 0.1D, this.getZ() + (this.getRandom().nextFloat() - 0.5D) * this.getBbWidth(), 4.0D * (this.getRandom().nextFloat() - 0.5D), 0.5D, (this.getRandom().nextFloat() - 0.5D) * 4.0D);
 			}
 		}
 		// End copy
 
 		if (this.getRandom().nextBoolean()) {
-			this.getLevel().addParticle(new DustParticleOptions(new Vector3f(1.0F, 0.0F, 0.0F), 1.0F), this.getX() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), this.getY() + this.getRandom().nextDouble() * this.getBbHeight() - 0.25D, this.getZ() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), 0, 0, 0);
+			this.level().addParticle(new DustParticleOptions(new Vector3f(1.0F, 0.0F, 0.0F), 1.0F), this.getX() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), this.getY() + this.getRandom().nextDouble() * this.getBbHeight() - 0.25D, this.getZ() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), 0, 0, 0);
 		}
 	}
 

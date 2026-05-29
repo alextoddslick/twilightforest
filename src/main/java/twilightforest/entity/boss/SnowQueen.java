@@ -144,7 +144,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 		} else {
 			this.spawnParticles();
@@ -158,7 +158,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 			float py = this.getEyeHeight() + (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.5F;
 			float pz = (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.3F;
 
-			this.getLevel().addParticle(TFParticleType.SNOW_GUARDIAN.get(), this.xOld + px, this.yOld + py, this.zOld + pz, 0, 0, 0);
+			this.level().addParticle(TFParticleType.SNOW_GUARDIAN.get(), this.xOld + px, this.yOld + py, this.zOld + pz, 0, 0, 0);
 		}
 
 		// during drop phase, all the ice blocks should make particles
@@ -168,7 +168,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 				float py = (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.5F;
 				float pz = (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.5F;
 
-				this.getLevel().addParticle(TFParticleType.SNOW_WARNING.get(), ice.xOld + px, ice.yOld + py, ice.zOld + pz, 0, 0, 0);
+				this.level().addParticle(TFParticleType.SNOW_WARNING.get(), ice.xOld + px, ice.yOld + py, ice.zOld + pz, 0, 0, 0);
 			}
 		}
 
@@ -197,7 +197,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 				dy *= velocity;
 				dz *= velocity;
 
-				this.getLevel().addParticle(TFParticleType.ICE_BEAM.get(), px, py, pz, dx, dy, dz);
+				this.level().addParticle(TFParticleType.ICE_BEAM.get(), px, py, pz, dx, dy, dz);
 			}
 		}
 	}
@@ -221,7 +221,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 			this.iceArray[i].setYRot(this.getIceShieldAngle(i));
 
 			// collide things with the block
-			if (!this.getLevel().isClientSide()) {
+			if (!this.level().isClientSide()) {
 				this.applyShieldCollisions(this.iceArray[i]);
 			}
 		}
@@ -232,7 +232,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 				double d = this.getRandom().nextGaussian() * 0.02D;
 				double d1 = this.getRandom().nextGaussian() * 0.02D;
 				double d2 = this.getRandom().nextGaussian() * 0.02D;
-				this.getLevel().addParticle(this.getRandom().nextBoolean() ? ParticleTypes.EXPLOSION : ParticleTypes.POOF,
+				this.level().addParticle(this.getRandom().nextBoolean() ? ParticleTypes.EXPLOSION : ParticleTypes.POOF,
 						(this.getX() + this.getRandom().nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(),
 						this.getY() + this.getRandom().nextFloat() * this.getBbHeight(),
 						(this.getZ() + this.getRandom().nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(), d, d1, d2);
@@ -247,9 +247,9 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 
 	@Override
 	public void checkDespawn() {
-		if (this.getLevel().getDifficulty() == Difficulty.PEACEFUL) {
+		if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
 			if (this.getRestrictCenter() != BlockPos.ZERO) {
-				this.getLevel().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.SNOW_QUEEN_BOSS_SPAWNER.get().defaultBlockState());
+				this.level().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.SNOW_QUEEN_BOSS_SPAWNER.get().defaultBlockState());
 			}
 			this.discard();
 		} else {
@@ -261,8 +261,8 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 	public void die(DamageSource cause) {
 		super.die(cause);
 		// mark the tower as defeated
-		if (!this.getLevel().isClientSide()) {
-			TFGenerationSettings.markStructureConquered(this.getLevel(), this.blockPosition(), TFLandmark.ICE_TOWER);
+		if (!this.level().isClientSide()) {
+			TFGenerationSettings.markStructureConquered(this.level(), this.blockPosition(), TFLandmark.ICE_TOWER);
 			for (ServerPlayer player : this.hurtBy) {
 				TFAdvancements.HURT_BOSS.trigger(player, this);
 			}
@@ -278,7 +278,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 	}
 
 	private void applyShieldCollisions(Entity collider) {
-		List<Entity> list = this.getLevel().getEntities(collider, collider.getBoundingBox().inflate(-0.2F, -0.2F, -0.2F));
+		List<Entity> list = this.level().getEntities(collider, collider.getBoundingBox().inflate(-0.2F, -0.2F, -0.2F));
 
 		for (Entity collided : list) {
 			if (collided.isPushable()) {
@@ -365,11 +365,11 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 	}
 
 	public void destroyBlocksInAABB(AABB box) {
-		if (ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this)) {
+		if (ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
 			for (BlockPos pos : WorldUtil.getAllInBB(box)) {
-				BlockState state = this.getLevel().getBlockState(pos);
+				BlockState state = this.level().getBlockState(pos);
 				if (state.getBlock() == Blocks.ICE || state.getBlock() == Blocks.PACKED_ICE) {
-					this.getLevel().destroyBlock(pos, false);
+					this.level().destroyBlock(pos, false);
 					this.gameEvent(GameEvent.BLOCK_DESTROY);
 				}
 			}
@@ -415,10 +415,10 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 	}
 
 	public void summonMinionAt(LivingEntity targetedEntity) {
-		IceCrystal minion = new IceCrystal(this.getLevel());
+		IceCrystal minion = new IceCrystal(this.level());
 		minion.absMoveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
 
-		this.getLevel().addFreshEntity(minion);
+		this.level().addFreshEntity(minion);
 
 		for (int i = 0; i < 100; i++) {
 			double attemptX;
@@ -447,7 +447,7 @@ public class SnowQueen extends Monster implements IBreathAttacker, EnforcedHomeP
 	}
 
 	public int countMyMinions() {
-		return this.getLevel().getEntitiesOfClass(IceCrystal.class, new AABB(this.getX(), this.getY(), this.getZ(), this.getX() + 1, this.getY() + 1, this.getZ() + 1).inflate(32.0D, 16.0D, 32.0D)).size();
+		return this.level().getEntitiesOfClass(IceCrystal.class, new AABB(this.getX(), this.getY(), this.getZ(), this.getX() + 1, this.getY() + 1, this.getZ() + 1).inflate(32.0D, 16.0D, 32.0D)).size();
 	}
 
 	public void incrementSuccessfulDrops() {

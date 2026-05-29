@@ -253,7 +253,7 @@ public class TFPortalBlock extends HalfTransparentBlock implements LiquidBlockCo
 	}
 
 	public static void attemptSendEntity(Entity entity, boolean forcedEntry, boolean makeReturnPortal) {
-		if (!entity.isAlive() || entity.getLevel().isClientSide()) {
+		if (!entity.isAlive() || entity.level().isClientSide()) {
 			return;
 		}
 

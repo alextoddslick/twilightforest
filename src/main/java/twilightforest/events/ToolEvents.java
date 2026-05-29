@@ -47,7 +47,7 @@ public class ToolEvents {
 				player.setYRot(living.getYRot());
 				player.teleportTo(living.getX(), living.getY(), living.getZ());
 				player.invulnerableTime = 40;
-				player.getLevel().broadcastEntityEvent(player, (byte) 46);
+				player.level().broadcastEntityEvent(player, (byte) 46);
 				if (living.isPassenger() && living.getVehicle() != null) {
 					player.startRiding(living.getVehicle(), true);
 					living.stopRiding();
@@ -57,7 +57,7 @@ public class ToolEvents {
 				living.setYRot(sourceYaw);
 				living.setXRot(sourcePitch);
 				living.teleportTo(sourceX, sourceY, sourceZ);
-				living.getLevel().broadcastEntityEvent(player, (byte) 46);
+				living.level().broadcastEntityEvent(player, (byte) 46);
 				if (playerVehicle != null) {
 					living.startRiding(playerVehicle, true);
 					player.stopRiding();
@@ -78,7 +78,7 @@ public class ToolEvents {
 	public static void onKnightmetalToolDamage(LivingHurtEvent event) {
 		LivingEntity target = event.getEntity();
 
-		if (!target.getLevel().isClientSide() && event.getSource().getDirectEntity() instanceof LivingEntity living) {
+		if (!target.level().isClientSide() && event.getSource().getDirectEntity() instanceof LivingEntity living) {
 			ItemStack weapon = living.getMainHandItem();
 
 			if (!weapon.isEmpty()) {
@@ -90,11 +90,11 @@ public class ToolEvents {
 						event.setAmount(event.getAmount() + KNIGHTMETAL_BONUS_DAMAGE);
 					}
 					// enchantment attack sparkles
-					((ServerLevel) target.getLevel()).getChunkSource().broadcastAndSend(target, new ClientboundAnimatePacket(target, 5));
+					((ServerLevel) target.level()).getChunkSource().broadcastAndSend(target, new ClientboundAnimatePacket(target, 5));
 				} else if (target.getArmorValue() == 0 && weapon.is(TFItems.KNIGHTMETAL_AXE.get())) {
 					event.setAmount(event.getAmount() + KNIGHTMETAL_BONUS_DAMAGE);
 					// enchantment attack sparkles
-					((ServerLevel) target.getLevel()).getChunkSource().broadcastAndSend(target, new ClientboundAnimatePacket(target, 5));
+					((ServerLevel) target.level()).getChunkSource().broadcastAndSend(target, new ClientboundAnimatePacket(target, 5));
 				}
 			}
 		}
@@ -104,12 +104,12 @@ public class ToolEvents {
 	public static void onMinotaurAxeCharge(LivingHurtEvent event) {
 		LivingEntity target = event.getEntity();
 		Entity source = event.getSource().getDirectEntity();
-		if (!target.getLevel().isClientSide() && source instanceof LivingEntity living && source.isSprinting() && (event.getSource().getMsgId().equals("player") || event.getSource().getMsgId().equals("mob"))) {
+		if (!target.level().isClientSide() && source instanceof LivingEntity living && source.isSprinting() && (event.getSource().getMsgId().equals("player") || event.getSource().getMsgId().equals("mob"))) {
 			ItemStack weapon = living.getMainHandItem();
 			if (!weapon.isEmpty() && weapon.getItem() instanceof MinotaurAxeItem) {
 				event.setAmount(event.getAmount() + MINOTAUR_AXE_BONUS_DAMAGE);
 				// enchantment attack sparkles
-				((ServerLevel) target.getLevel()).getChunkSource().broadcastAndSend(target, new ClientboundAnimatePacket(target, 5));
+				((ServerLevel) target.level()).getChunkSource().broadcastAndSend(target, new ClientboundAnimatePacket(target, 5));
 			}
 		}
 	}

@@ -67,7 +67,7 @@ public class Squirrel extends Animal {
 	@Override
 	public float getWalkTargetValue(BlockPos pos) {
 		// prefer standing on leaves
-		Material underMaterial = this.getLevel().getBlockState(pos.below()).getMaterial();
+		Material underMaterial = this.level().getBlockState(pos.below()).getMaterial();
 		if (underMaterial == Material.LEAVES) {
 			return 12.0F;
 		}
@@ -78,7 +78,7 @@ public class Squirrel extends Animal {
 			return 10.0F;
 		}
 		// default to just prefering lighter areas
-		return this.getLevel().getMaxLocalRawBrightness(pos) - 0.5F;
+		return this.level().getMaxLocalRawBrightness(pos) - 0.5F;
 	}
 
 	@Nullable

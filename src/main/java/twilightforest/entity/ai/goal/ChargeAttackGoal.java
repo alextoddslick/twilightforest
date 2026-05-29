@@ -96,7 +96,7 @@ public class ChargeAttackGoal extends Goal {
 				}
 			}
 		} else if (this.canBreak) {
-			if (!this.charger.getLevel().isClientSide() && ForgeEventFactory.getMobGriefingEvent(this.charger.getLevel(), this.charger)) {
+			if (!this.charger.level().isClientSide() && ForgeEventFactory.getMobGriefingEvent(this.charger.level(), this.charger)) {
 
 				AABB bb = this.charger.getBoundingBox();
 				int minx = Mth.floor(bb.minX - 0.75D);
@@ -109,10 +109,10 @@ public class ChargeAttackGoal extends Goal {
 				BlockPos min = new BlockPos(minx, miny, minz);
 				BlockPos max = new BlockPos(maxx, maxy, maxz);
 
-				if (this.charger.getLevel().hasChunksAt(min, max)) {
+				if (this.charger.level().hasChunksAt(min, max)) {
 					for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
-						if (EntityUtil.canDestroyBlock(this.charger.getLevel(), pos, this.charger) && this.charger.getLevel().getBlockEntity(pos) == null) {
-							this.charger.getLevel().destroyBlock(pos, true);
+						if (EntityUtil.canDestroyBlock(this.charger.level(), pos, this.charger) && this.charger.level().getBlockEntity(pos) == null) {
+							this.charger.level().destroyBlock(pos, true);
 						}
 					}
 				}

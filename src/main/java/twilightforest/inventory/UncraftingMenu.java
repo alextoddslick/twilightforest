@@ -64,7 +64,7 @@ public class UncraftingMenu extends AbstractContainerMenu {
 	private int customCost;
 
 	public static UncraftingMenu fromNetwork(int id, Inventory inventory) {
-		return new UncraftingMenu(id, inventory, inventory.player.getLevel(), ContainerLevelAccess.NULL);
+		return new UncraftingMenu(id, inventory, inventory.player.level(), ContainerLevelAccess.NULL);
 	}
 
 	public UncraftingMenu(int id, Inventory inventory, Level level, ContainerLevelAccess positionData) {

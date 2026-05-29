@@ -47,7 +47,7 @@ public class IceSwordItem extends SwordItem {
 		if (result) {
 			target.addEffect(new MobEffectInstance(TFMobEffects.FROSTY.get(), 20 * 10, 2));
 			for (int i = 0; i < 20; i++) {
-				((ServerLevel) target.getLevel()).sendParticles(TFParticleType.SNOW.get(), target.getX(), target.getY() + target.getBbHeight() * 0.5F, target.getZ(), 1, target.getBbWidth() * 0.5, target.getBbHeight() * 0.5, target.getBbWidth() * 0.5, 0);
+				((ServerLevel) target.level()).sendParticles(TFParticleType.SNOW.get(), target.getX(), target.getY() + target.getBbHeight() * 0.5F, target.getZ(), 1, target.getBbWidth() * 0.5, target.getBbHeight() * 0.5, target.getBbWidth() * 0.5, 0);
 			}
 		}
 

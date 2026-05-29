@@ -116,7 +116,7 @@ public class FireBeetle extends Monster implements IBreathAttacker {
 				dy *= velocity;
 				dz *= velocity;
 
-				this.getLevel().addParticle(ParticleTypes.FLAME, px, py, pz, dx, dy, dz);
+				this.level().addParticle(ParticleTypes.FLAME, px, py, pz, dx, dy, dz);
 			}
 
 			playSound(TFSounds.FIRE_BEETLE_SHOOT.get(), this.getRandom().nextFloat() * 0.5F, this.getRandom().nextFloat() * 0.5F);

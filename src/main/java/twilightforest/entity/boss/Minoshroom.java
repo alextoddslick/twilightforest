@@ -130,7 +130,7 @@ public class Minoshroom extends Minotaur implements EnforcedHomePoint {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.getLevel().isClientSide()) {
+		if (this.level().isClientSide()) {
 			this.prevClientSideChargeAnimation = this.clientSideChargeAnimation;
 			if (this.isGroundAttackCharge()) {
 				this.clientSideChargeAnimation = Mth.clamp(this.clientSideChargeAnimation + (1.0F / ((float) this.entityData.get(GROUND_CHARGE)) * 6.0F), 0.0F, 6.0F);
@@ -138,14 +138,14 @@ public class Minoshroom extends Minotaur implements EnforcedHomePoint {
 			} else {
 				this.clientSideChargeAnimation = Mth.clamp(this.clientSideChargeAnimation - 1.0F, 0.0F, 6.0F);
 				if (this.groundSmashState) {
-					BlockState block = this.getLevel().getBlockState(this.blockPosition().below());
+					BlockState block = this.level().getBlockState(this.blockPosition().below());
 
 					for (int i = 0; i < 80; i++) {
-						double cx = this.blockPosition().getX() + this.getLevel().getRandom().nextFloat() * 10.0F - 5.0F;
+						double cx = this.blockPosition().getX() + this.level().getRandom().nextFloat() * 10.0F - 5.0F;
 						double cy = this.getBoundingBox().minY + 0.1F + getLevel().getRandom().nextFloat() * 0.3F;
-						double cz = this.blockPosition().getZ() + this.getLevel().getRandom().nextFloat() * 10.0F - 5.0F;
+						double cz = this.blockPosition().getZ() + this.level().getRandom().nextFloat() * 10.0F - 5.0F;
 
-						this.getLevel().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), cx, cy, cz, 0.0D, 0.0D, 0.0D);
+						this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), cx, cy, cz, 0.0D, 0.0D, 0.0D);
 					}
 					this.groundSmashState = false;
 				}
@@ -204,8 +204,8 @@ public class Minoshroom extends Minotaur implements EnforcedHomePoint {
 	@Override
 	public void die(DamageSource cause) {
 		super.die(cause);
-		if (!this.getLevel().isClientSide()) {
-			TFGenerationSettings.markStructureConquered(this.getLevel(), new BlockPos(this.blockPosition()), TFLandmark.LABYRINTH);
+		if (!this.level().isClientSide()) {
+			TFGenerationSettings.markStructureConquered(this.level(), new BlockPos(this.blockPosition()), TFLandmark.LABYRINTH);
 			for(ServerPlayer player : this.hurtBy) {
 				TFAdvancements.HURT_BOSS.trigger(player, this);
 			}
@@ -227,9 +227,9 @@ public class Minoshroom extends Minotaur implements EnforcedHomePoint {
 
 	@Override
 	public void checkDespawn() {
-		if (this.getLevel().getDifficulty() == Difficulty.PEACEFUL) {
+		if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
 			if (this.hasRestriction()) {
-				this.getLevel().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.MINOSHROOM_BOSS_SPAWNER.get().defaultBlockState());
+				this.level().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.MINOSHROOM_BOSS_SPAWNER.get().defaultBlockState());
 			}
 			this.discard();
 		} else {

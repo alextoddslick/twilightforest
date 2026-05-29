@@ -98,7 +98,7 @@ public class MazeSlime extends Slime {
 			float f1 = this.getRandom().nextFloat() * 0.5F + 0.5F;
 			float f2 = Mth.sin(f) * i * 0.5F * f1;
 			float f3 = Mth.cos(f) * i * 0.5F * f1;
-			Level world = this.getLevel();
+			Level world = this.level();
 			double d0 = this.getX() + f2;
 			double d1 = this.getZ() + f3;
 			BlockState state = TFBlocks.MAZESTONE_BRICK.get().defaultBlockState();

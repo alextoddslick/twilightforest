@@ -32,7 +32,7 @@ public class FeatherFanCapabilityHandler implements FeatherFanFallCapability {
 	@Override
 	public void setFalling(boolean falling) {
 		this.falling = falling;
-		if (!this.host.getLevel().isClientSide()) {
+		if (!this.host.level().isClientSide()) {
 			TFPacketHandler.CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this.host), new UpdateFeatherFanFallPacket(this.host.getId(), this));
 		}
 	}

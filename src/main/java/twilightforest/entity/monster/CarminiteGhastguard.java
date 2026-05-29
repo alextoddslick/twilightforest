@@ -124,7 +124,7 @@ public class CarminiteGhastguard extends Ghast implements EnforcedHomePoint {
 	@Override
 	public void aiStep() {
 		if (this.getRandom().nextBoolean()) {
-			this.getLevel().addParticle(DustParticleOptions.REDSTONE, this.getX() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), this.getY() + this.getRandom().nextDouble() * this.getBbHeight() - 0.25D, this.getZ() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), 0, 0, 0);
+			this.level().addParticle(DustParticleOptions.REDSTONE, this.getX() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), this.getY() + this.getRandom().nextDouble() * this.getBbHeight() - 0.25D, this.getZ() + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth(), 0, 0, 0);
 		}
 
 		super.aiStep();
@@ -179,9 +179,9 @@ public class CarminiteGhastguard extends Ghast implements EnforcedHomePoint {
 		double d2 = this.getTarget().getX() - (this.getX() + vec3d.x() * 4.0D);
 		double d3 = this.getTarget().getBoundingBox().minY + this.getTarget().getBbHeight() / 2.0F - (0.5D + this.getY() + this.getBbHeight() / 2.0F);
 		double d4 = this.getTarget().getZ() - (this.getZ() + vec3d.z() * 4.0D);
-		LargeFireball entitylargefireball = new LargeFireball(this.getLevel(), this, d2, d3, d4, this.getExplosionPower());
+		LargeFireball entitylargefireball = new LargeFireball(this.level(), this, d2, d3, d4, this.getExplosionPower());
 		entitylargefireball.setPos(this.getX() + vec3d.x() * 4.0D, this.getY() + this.getBbHeight() / 2.0F + 0.5D, this.getZ() + vec3d.z() * 4.0D);
-		this.getLevel().addFreshEntity(entitylargefireball);
+		this.level().addFreshEntity(entitylargefireball);
 
 		// when we attack, there is a 1-in-6 chance we decide to stop attacking
 		if (this.getRandom().nextInt(6) == 0) {
@@ -205,8 +205,8 @@ public class CarminiteGhastguard extends Ghast implements EnforcedHomePoint {
 		if (this.getRestrictRadius() == -1.0F) {
 			return true;
 		} else {
-			return pos.getY() > this.getLevel().getMinBuildHeight() + 64 &&
-					pos.getY() < this.getLevel().getMaxBuildHeight() - 64 &&
+			return pos.getY() > this.level().getMinBuildHeight() + 64 &&
+					pos.getY() < this.level().getMaxBuildHeight() - 64 &&
 					this.getRestrictCenter().distSqr(pos) < (double)(this.getRestrictRadius() * this.getRestrictRadius());
 		}
 	}

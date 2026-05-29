@@ -218,17 +218,17 @@ public class Lich extends Monster implements EnforcedHomePoint {
 				blu = 0.00F * sparkle;
 			}
 
-			this.getLevel().addParticle(ParticleTypes.ENTITY_EFFECT, dx + (this.getRandom().nextGaussian() * 0.025), dy + (this.getRandom().nextGaussian() * 0.025), dz + (this.getRandom().nextGaussian() * 0.025), red, grn, blu);
+			this.level().addParticle(ParticleTypes.ENTITY_EFFECT, dx + (this.getRandom().nextGaussian() * 0.025), dy + (this.getRandom().nextGaussian() * 0.025), dz + (this.getRandom().nextGaussian() * 0.025), red, grn, blu);
 		}
 
 		if (this.getPhase() == 3)
-			this.getLevel().addParticle(ParticleTypes.ANGRY_VILLAGER,
+			this.level().addParticle(ParticleTypes.ANGRY_VILLAGER,
 					this.getX() + this.getRandom().nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(),
 					this.getY() + 1.0D + this.getRandom().nextFloat() * this.getBbHeight(),
 					this.getZ() + this.getRandom().nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(),
 					this.getRandom().nextGaussian() * 0.02D, this.getRandom().nextGaussian() * 0.02D, this.getRandom().nextGaussian() * 0.02D);
 
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			if (this.getPhase() == 1) {
 				this.bossInfo.setProgress((float) (this.getShieldStrength()) / (float) (INITIAL_SHIELD_STRENGTH));
 			} else {
@@ -330,8 +330,8 @@ public class Lich extends Monster implements EnforcedHomePoint {
 	public void die(DamageSource cause) {
 		super.die(cause);
 		// mark the tower as defeated
-		if (!this.getLevel().isClientSide() && !this.isShadowClone()) {
-			TFGenerationSettings.markStructureConquered(this.getLevel(), this.blockPosition(), TFLandmark.LICH_TOWER);
+		if (!this.level().isClientSide() && !this.isShadowClone()) {
+			TFGenerationSettings.markStructureConquered(this.level(), this.blockPosition(), TFLandmark.LICH_TOWER);
 			for (ServerPlayer player : this.hurtBy) {
 				TFAdvancements.HURT_BOSS.trigger(player, this);
 			}
@@ -342,9 +342,9 @@ public class Lich extends Monster implements EnforcedHomePoint {
 
 	@Override
 	public void checkDespawn() {
-		if (this.getLevel().getDifficulty() == Difficulty.PEACEFUL && !this.isShadowClone()) {
+		if (this.level().getDifficulty() == Difficulty.PEACEFUL && !this.isShadowClone()) {
 			if (this.hasRestriction()) {
-				this.getLevel().setBlockAndUpdate(getRestrictCenter(), TFBlocks.LICH_BOSS_SPAWNER.get().defaultBlockState());
+				this.level().setBlockAndUpdate(getRestrictCenter(), TFBlocks.LICH_BOSS_SPAWNER.get().defaultBlockState());
 			}
 			this.discard();
 		} else {
@@ -371,7 +371,7 @@ public class Lich extends Monster implements EnforcedHomePoint {
 		projectile.moveTo(sx, sy, sz, getYRot(), getXRot());
 		projectile.shoot(tx, ty, tz, 0.5F, 1.0F);
 
-		this.getLevel().addFreshEntity(projectile);
+		this.level().addFreshEntity(projectile);
 	}
 
 	public boolean wantsNewClone(Lich clone) {
@@ -392,7 +392,7 @@ public class Lich extends Monster implements EnforcedHomePoint {
 	}
 
 	public List<? extends Lich> getNearbyLiches() {
-		return this.getLevel().getEntitiesOfClass(getClass(), new AABB(this.getX(), this.getY(), this.getZ(), this.getX() + 1, this.getY() + 1, this.getZ() + 1).inflate(32.0D, 16.0D, 32.0D));
+		return this.level().getEntitiesOfClass(getClass(), new AABB(this.getX(), this.getY(), this.getZ(), this.getX() + 1, this.getY() + 1, this.getZ() + 1).inflate(32.0D, 16.0D, 32.0D));
 	}
 
 	public boolean wantsNewMinion() {
@@ -400,7 +400,7 @@ public class Lich extends Monster implements EnforcedHomePoint {
 	}
 
 	public int countMyMinions() {
-		return (int) this.getLevel().getEntitiesOfClass(LichMinion.class, new AABB(this.getX(), this.getY(), this.getZ(), this.getX() + 1, this.getY() + 1, this.getZ() + 1).inflate(32.0D, 16.0D, 32.0D))
+		return (int) this.level().getEntitiesOfClass(LichMinion.class, new AABB(this.getX(), this.getY(), this.getZ(), this.getX() + 1, this.getY() + 1, this.getZ() + 1).inflate(32.0D, 16.0D, 32.0D))
 				.stream()
 				.filter(m -> m.master == this)
 				.count();
@@ -470,7 +470,7 @@ public class Lich extends Monster implements EnforcedHomePoint {
 		this.teleportTo(destX, destY, destZ);
 
 		this.makeTeleportTrail(srcX, srcY, srcZ, destX, destY, destZ);
-		this.getLevel().playSound(null, srcX, srcY, srcZ, TFSounds.LICH_TELEPORT.get(), this.getSoundSource(), 1.0F, 1.0F);
+		this.level().playSound(null, srcX, srcY, srcZ, TFSounds.LICH_TELEPORT.get(), this.getSoundSource(), 1.0F, 1.0F);
 		this.playSound(TFSounds.LICH_TELEPORT.get(), 1.0F, 1.0F);
 		this.gameEvent(GameEvent.TELEPORT);
 
@@ -493,14 +493,14 @@ public class Lich extends Monster implements EnforcedHomePoint {
 			double tx = srcX + (destX - srcX) * trailFactor + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth() * 2D;
 			double ty = srcY + (destY - srcY) * trailFactor + this.getRandom().nextDouble() * this.getBbHeight();
 			double tz = srcZ + (destZ - srcZ) * trailFactor + (this.getRandom().nextDouble() - 0.5D) * this.getBbWidth() * 2D;
-			this.getLevel().addParticle(ParticleTypes.EFFECT, tx, ty, tz, f, f1, f2);
+			this.level().addParticle(ParticleTypes.EFFECT, tx, ty, tz, f, f1, f2);
 		}
 	}
 
 	public void makeMagicTrail(Vec3 source, Vec3 target, float red, float green, float blue) {
 		int particles = 60;
-		if (!this.getLevel().isClientSide()) {
-			for (ServerPlayer serverplayer : ((ServerLevel) this.getLevel()).players()) {
+		if (!this.level().isClientSide()) {
+			for (ServerPlayer serverplayer : ((ServerLevel) this.level()).players()) {
 				if (serverplayer.distanceToSqr(source) < 4096.0D) {
 					ParticlePacket packet = new ParticlePacket();
 

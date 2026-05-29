@@ -46,16 +46,16 @@ public class LichAbsorbMinionsGoal extends Goal {
 		super.tick();
 		if (this.lich.getScepterTimeLeft() > 0) return;
 
-		List<LichMinion> minions = this.lich.getLevel().getEntitiesOfClass(LichMinion.class, this.lich.getBoundingBox().inflate(32.0D, 16.0D, 32.0D))
+		List<LichMinion> minions = this.lich.level().getEntitiesOfClass(LichMinion.class, this.lich.getBoundingBox().inflate(32.0D, 16.0D, 32.0D))
 				.stream().filter(m -> m.master == this.lich).collect(Collectors.toList());
 
 		if (!minions.isEmpty()) {
 			LichMinion minion = minions.get(0);
 			minion.discard();
 			//rain particles
-			LifedrainScepterItem.animateTargetShatter((ServerLevel) this.lich.getLevel(), minion);
+			LifedrainScepterItem.animateTargetShatter((ServerLevel) this.lich.level(), minion);
 			// play death sound
-			this.lich.getLevel().playSound(null, minion.blockPosition(), EntityUtil.getDeathSound(minion), SoundSource.HOSTILE, 1.0F, minion.getVoicePitch());
+			this.lich.level().playSound(null, minion.blockPosition(), EntityUtil.getDeathSound(minion), SoundSource.HOSTILE, 1.0F, minion.getVoicePitch());
 			//funny pop sound
 			this.lich.playSound(TFSounds.LICH_POP_MOB.get(), 3.0F, 0.4F + this.lich.getRandom().nextFloat() * 0.2F);
 			minion.playSound(TFSounds.LICH_POP_MOB.get(), 3.0F, 0.4F + this.lich.getRandom().nextFloat() * 0.2F);

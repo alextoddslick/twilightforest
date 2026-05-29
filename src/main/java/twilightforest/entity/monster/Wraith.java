@@ -101,7 +101,7 @@ public class Wraith extends FlyingMob implements Enemy, EnforcedHomePoint {
 
 					if (this.getRandom().nextFloat() < f1) {
 						entityplayer.getCooldowns().addCooldown(Items.SHIELD, 100);
-						this.getLevel().broadcastEntityEvent(entityplayer, (byte) 30);
+						this.level().broadcastEntityEvent(entityplayer, (byte) 30);
 					}
 				}
 			}
@@ -339,7 +339,7 @@ public class Wraith extends FlyingMob implements Enemy, EnforcedHomePoint {
 				BlockPos pos = this.mob.getRestrictCenter()
 						.relative(Direction.getRandom(this.mob.getRandom()))
 						.offset(this.mob.getRandom().nextInt(5), this.mob.getRandom().nextInt(5), this.mob.getRandom().nextInt(5));
-				if (pos == null || !this.mob.getLevel().isLoaded(pos)) {
+				if (pos == null || !this.mob.level().isLoaded(pos)) {
 					return false;
 				} else {
 					this.wantedX = pos.getX();

@@ -70,7 +70,7 @@ public class Troll extends Monster implements RangedAttackMob {
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Troll.class));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			this.setCombatTask();
 		}
 	}
@@ -85,7 +85,7 @@ public class Troll extends Monster implements RangedAttackMob {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 
 			if (!this.hasRock() && this.getTarget() != null) {
 				if (this.rockCooldown > 0) {
@@ -144,7 +144,7 @@ public class Troll extends Monster implements RangedAttackMob {
 	public void setHasRock(boolean rock) {
 		this.entityData.set(ROCK_FLAG, rock);
 
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			if (rock) {
 				if (!Objects.requireNonNull(getAttribute(Attributes.FOLLOW_RANGE)).hasModifier(ROCK_MODIFIER)) {
 					Objects.requireNonNull(this.getAttribute(Attributes.FOLLOW_RANGE)).addTransientModifier(ROCK_MODIFIER);
@@ -208,26 +208,26 @@ public class Troll extends Monster implements RangedAttackMob {
 	}
 
 	private void ripenBer(int offset, BlockPos pos) {
-		if (this.getLevel().getBlockState(pos).getBlock() == TFBlocks.UNRIPE_TROLLBER.get() && this.getRandom().nextBoolean() && (Math.abs(pos.getX() + pos.getY() + pos.getZ()) % 5 == offset)) {
-			this.getLevel().setBlockAndUpdate(pos, TFBlocks.TROLLBER.get().defaultBlockState());
-			this.getLevel().levelEvent(2004, pos, 0);
+		if (this.level().getBlockState(pos).getBlock() == TFBlocks.UNRIPE_TROLLBER.get() && this.getRandom().nextBoolean() && (Math.abs(pos.getX() + pos.getY() + pos.getZ()) % 5 == offset)) {
+			this.level().setBlockAndUpdate(pos, TFBlocks.TROLLBER.get().defaultBlockState());
+			this.level().levelEvent(2004, pos, 0);
 		}
 	}
 
 	@Override
 	public void performRangedAttack(LivingEntity target, float distanceFactor) {
 		if (this.hasRock()) {
-			ThrownBlock blocc = new ThrownBlock(this.getLevel(), this, this.rock);
+			ThrownBlock blocc = new ThrownBlock(this.level(), this, this.rock);
 
 			double d0 = target.getX() - this.getX();
 			double d1 = target.getBoundingBox().minY + target.getBbHeight() / 3.0F - blocc.getY();
 			double d2 = target.getZ() - this.getZ();
 			double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-			blocc.shoot(d0, d1 + d3 * 0.2D, d2, 1.6F, 4 - this.getLevel().getDifficulty().getId());
+			blocc.shoot(d0, d1 + d3 * 0.2D, d2, 1.6F, 4 - this.level().getDifficulty().getId());
 
 			this.playSound(TFSounds.TROLL_THROWS_ROCK.get(), 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			this.gameEvent(GameEvent.PROJECTILE_SHOOT);
-			this.getLevel().addFreshEntity(blocc);
+			this.level().addFreshEntity(blocc);
 			this.setHasRock(false);
 			if (!this.getPassengers().isEmpty() && Objects.requireNonNull(this.getFirstPassenger()).getType() == TFEntities.THROWN_BLOCK.get()) {
 				this.getFirstPassenger().discard();

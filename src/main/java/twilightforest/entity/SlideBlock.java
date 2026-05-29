@@ -70,7 +70,7 @@ public class SlideBlock extends Entity implements IEntityAdditionalSpawnData {
 		};
 
 		for (Direction e : toCheck) {
-			if (this.getLevel().isEmptyBlock(pos.relative(e)) && !this.getLevel().isEmptyBlock(pos.relative(e.getOpposite()))) {
+			if (this.level().isEmptyBlock(pos.relative(e)) && !this.level().isEmptyBlock(pos.relative(e.getOpposite()))) {
 				this.entityData.set(MOVE_DIRECTION, e);
 				return;
 			}
@@ -78,7 +78,7 @@ public class SlideBlock extends Entity implements IEntityAdditionalSpawnData {
 
 		// if no wall, travel towards open air
 		for (Direction e : toCheck) {
-			if (this.getLevel().isEmptyBlock(pos.relative(e))) {
+			if (this.level().isEmptyBlock(pos.relative(e))) {
 				this.entityData.set(MOVE_DIRECTION, e);
 				return;
 			}
@@ -118,7 +118,7 @@ public class SlideBlock extends Entity implements IEntityAdditionalSpawnData {
 			}
 			this.getDeltaMovement().multiply(0.98, 0.98, 0.98);
 
-			if (!this.getLevel().isClientSide()) {
+			if (!this.level().isClientSide()) {
 				if (this.slideTime % 5 == 0) {
 					this.playSound(TFSounds.SLIDER.get(), 1.0F, 0.9F + (this.random.nextFloat() * 0.4F));
 				}
@@ -126,12 +126,12 @@ public class SlideBlock extends Entity implements IEntityAdditionalSpawnData {
 				BlockPos pos = new BlockPos(this.blockPosition());
 
 				if (this.slideTime == 1) {
-					if (this.getLevel().getBlockState(pos) != this.myState) {
+					if (this.level().getBlockState(pos) != this.myState) {
 						this.discard();
 						return;
 					}
 
-					this.getLevel().removeBlock(pos, false);
+					this.level().removeBlock(pos, false);
 				}
 
 				if (this.slideTime == WARMUP_TIME + 40) {
@@ -145,18 +145,18 @@ public class SlideBlock extends Entity implements IEntityAdditionalSpawnData {
 
 					this.discard();
 
-					if (this.getLevel().isUnobstructed(this.myState, pos, CollisionContext.empty())) {
-						this.getLevel().setBlockAndUpdate(pos, this.myState);
+					if (this.level().isUnobstructed(this.myState, pos, CollisionContext.empty())) {
+						this.level().setBlockAndUpdate(pos, this.myState);
 					} else {
 						this.spawnAtLocation(new ItemStack(this.myState.getBlock()), 0.0F);
 					}
-				} else if (this.slideTime > 100 && (pos.getY() < this.getLevel().getMinBuildHeight() + 1 || pos.getY() > this.getLevel().getMaxBuildHeight()) || this.slideTime > 600) {
+				} else if (this.slideTime > 100 && (pos.getY() < this.level().getMinBuildHeight() + 1 || pos.getY() > this.level().getMaxBuildHeight()) || this.slideTime > 600) {
 					this.spawnAtLocation(new ItemStack(this.myState.getBlock()), 0.0F);
 					this.discard();
 				}
 
 				// push things out and damage them
-				this.damageKnockbackEntities(this.getLevel().getEntities(this, this.getBoundingBox()));
+				this.damageKnockbackEntities(this.level().getEntities(this, this.getBoundingBox()));
 			}
 		}
 	}

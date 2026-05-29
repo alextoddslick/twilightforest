@@ -77,7 +77,7 @@ public class NagaSegment extends TFPart<Naga> {
 					double d2 = this.random.nextGaussian() * 0.02D;
 					SimpleParticleType explosionType = random.nextBoolean() ? ParticleTypes.EXPLOSION : ParticleTypes.POOF;
 
-					this.getLevel().addParticle(explosionType,
+					this.level().addParticle(explosionType,
 							(this.getX() + this.random.nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(),
 							this.getY() + this.random.nextFloat() * this.getBbHeight(),
 							(this.getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(),
@@ -90,7 +90,7 @@ public class NagaSegment extends TFPart<Naga> {
 	}
 
 	private void collideWithOthers() {
-		List<Entity> list = this.getLevel().getEntities(this, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D));
+		List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D));
 
 		for (Entity entity : list) {
 			if (entity.isPushable()) {

@@ -88,10 +88,10 @@ public class CharmEffect extends Entity implements ItemSupplier {
 			double dy = getY() + 0.25 * (this.random.nextDouble() - this.random.nextDouble());
 			double dz = getZ() + 0.25 * (this.random.nextDouble() - this.random.nextDouble());
 
-			this.getLevel().addParticle(new ItemParticleOption(ParticleTypes.ITEM, getItemID()), dx, dy, dz, 0, 0.2, 0);
+			this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, getItemID()), dx, dy, dz, 0, 0.2, 0);
 		}
 
-		if (!this.getLevel().isClientSide() && (this.tickCount > 200 || (orbiting != null && !orbiting.isAlive()))) {
+		if (!this.level().isClientSide() && (this.tickCount > 200 || (orbiting != null && !orbiting.isAlive()))) {
 			this.discard();
 		}
 	}
@@ -124,7 +124,7 @@ public class CharmEffect extends Entity implements ItemSupplier {
 
 	@Nullable
 	public LivingEntity getOwner() {
-		Entity e = this.getLevel().getEntity(this.entityData.get(DATA_OWNER));
+		Entity e = this.level().getEntity(this.entityData.get(DATA_OWNER));
 		if (e instanceof LivingEntity living)
 			return living;
 		else return null;

@@ -64,10 +64,10 @@ public class ThrownBlock extends TFThrowable {
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		super.onHitEntity(result);
-		if (result.getEntity() instanceof LivingEntity living && !(living instanceof Troll) && !this.getLevel().isClientSide()) {
+		if (result.getEntity() instanceof LivingEntity living && !(living instanceof Troll) && !this.level().isClientSide()) {
 			living.hurt(TFDamageSources.THROWN_BLOCK, 6);
 
-			this.getLevel().broadcastEntityEvent(this, (byte) 3);
+			this.level().broadcastEntityEvent(this, (byte) 3);
 			this.discard();
 		}
 	}
@@ -75,8 +75,8 @@ public class ThrownBlock extends TFThrowable {
 	@Override
 	protected void onHitBlock(BlockHitResult result) {
 		super.onHitBlock(result);
-		if (!this.getLevel().isClientSide()) {
-			this.getLevel().broadcastEntityEvent(this, (byte) 3);
+		if (!this.level().isClientSide()) {
+			this.level().broadcastEntityEvent(this, (byte) 3);
 			this.gameEvent(GameEvent.BLOCK_DESTROY, this.getOwner());
 			this.discard();
 		}

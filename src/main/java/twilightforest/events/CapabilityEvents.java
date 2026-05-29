@@ -37,7 +37,7 @@ public class CapabilityEvents {
 	public static void livingAttack(LivingAttackEvent event) {
 		LivingEntity living = event.getEntity();
 		// shields
-		if (!living.getLevel().isClientSide() && !event.getSource().isBypassArmor()) {
+		if (!living.level().isClientSide() && !event.getSource().isBypassArmor()) {
 			living.getCapability(CapabilityList.SHIELDS).ifPresent(cap -> {
 				if (cap.shieldsLeft() > 0) {
 					cap.breakShield();

@@ -127,7 +127,7 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 			this.getLookControl().setLookAt(getPassengers().get(0), 100F, 100F);
 		}
 
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 
 			if (this.isRampaging() && (this.horizontalCollision || this.verticalCollision)) { //collided does not exist, but this is an equal?
@@ -152,7 +152,7 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 
 			if (this.isTired()) {
 				for (int i = 0; i < 20; i++) {
-					this.getLevel().addParticle(ParticleTypes.SPLASH, this.getX() + (this.random.nextDouble() - 0.5D) * this.getBbWidth() * 0.5, this.getY() + this.getEyeHeight(), this.getZ() + (this.random.nextDouble() - 0.5D) * this.getBbWidth() * 0.5, (random.nextFloat() - 0.5F) * 0.75F, 0, (random.nextFloat() - 0.5F) * 0.75F);
+					this.level().addParticle(ParticleTypes.SPLASH, this.getX() + (this.random.nextDouble() - 0.5D) * this.getBbWidth() * 0.5, this.getY() + this.getEyeHeight(), this.getZ() + (this.random.nextDouble() - 0.5D) * this.getBbWidth() * 0.5, (random.nextFloat() - 0.5F) * 0.75F, 0, (random.nextFloat() - 0.5F) * 0.75F);
 				}
 			}
 		}
@@ -163,7 +163,7 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 		double py = hgt % 5F;
 		double pz = 3F * Math.sin(rotation);
 
-		this.getLevel().addParticle(TFParticleType.SNOW.get(), this.xOld + px, this.yOld + py, this.zOld + pz, 0, 0, 0);
+		this.level().addParticle(TFParticleType.SNOW.get(), this.xOld + px, this.yOld + py, this.zOld + pz, 0, 0, 0);
 	}
 
 	@Override
@@ -246,17 +246,17 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 	}
 
 	public void destroyBlocksInAABB(AABB box) {
-		if (ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this)) {
+		if (ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
 			for (BlockPos pos : WorldUtil.getAllInBB(box)) {
-				if (EntityUtil.canDestroyBlock(this.getLevel(), pos, this)) {
-					this.getLevel().destroyBlock(pos, false);
+				if (EntityUtil.canDestroyBlock(this.level(), pos, this)) {
+					this.level().destroyBlock(pos, false);
 				}
 			}
 		}
 	}
 
 	public void makeRandomBlockFall(int range, int hangTime) {
-		if (ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this)) {
+		if (ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
 			// find a block nearby
 			int bx = Mth.floor(this.getX()) + this.getRandom().nextInt(range) - this.getRandom().nextInt(range);
 			int bz = Mth.floor(this.getZ()) + this.getRandom().nextInt(range) - this.getRandom().nextInt(range);
@@ -269,7 +269,7 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 	private void makeBlockFallAbove(BlockPos pos, int hangTime) {
 		for (int i = 1; i < 25; i++) {
 			BlockPos up = pos.above(i);
-			if (this.getLevel().getBlockState(up).is(BlockTags.ICE) && this.getLevel().getBlockState(up.below()).isAir()) {
+			if (this.level().getBlockState(up).is(BlockTags.ICE) && this.level().getBlockState(up.below()).isAir()) {
 				this.makeBlockFall(up, hangTime);
 				break;
 			}
@@ -283,26 +283,26 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 	}
 
 	private void makeBlockFall(BlockPos pos, int hangTime) {
-		FallingIce ice = new FallingIce(this.getLevel(), pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, this.getLevel().getBlockState(pos), hangTime);
-		this.getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-		this.getLevel().addFreshEntity(ice);
+		FallingIce ice = new FallingIce(this.level(), pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, this.level().getBlockState(pos), hangTime);
+		this.level().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+		this.level().addFreshEntity(ice);
 	}
 
 	@Override
 	public void performRangedAttack(LivingEntity target, float distanceFactor) {
 		if (!this.canRampage) {
-			IceBomb ice = new IceBomb(TFEntities.THROWN_ICE.get(), this.getLevel(), this);
+			IceBomb ice = new IceBomb(TFEntities.THROWN_ICE.get(), this.level(), this);
 
 			// [VanillaCopy] Part of Skeleton.performRangedAttack
 			double d0 = target.getX() - this.getX();
 			double d1 = target.getBoundingBox().minY + target.getBbHeight() / 3.0F - ice.getY();
 			double d2 = target.getZ() - this.getZ();
 			double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-			ice.shoot(d0, d1 + d3 * 0.2D, d2, 1.6F, 14 - this.getLevel().getDifficulty().getId() * 4);
+			ice.shoot(d0, d1 + d3 * 0.2D, d2, 1.6F, 14 - this.level().getDifficulty().getId() * 4);
 
 			this.playSound(TFSounds.ALPHAYETI_ICE.get(), 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			this.gameEvent(GameEvent.PROJECTILE_SHOOT);
-			this.getLevel().addFreshEntity(ice);
+			this.level().addFreshEntity(ice);
 		}
 	}
 
@@ -313,9 +313,9 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 
 	@Override
 	public void checkDespawn() {
-		if (this.getLevel().getDifficulty() == Difficulty.PEACEFUL) {
+		if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
 			if (this.getRestrictCenter() != BlockPos.ZERO) {
-				this.getLevel().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.ALPHA_YETI_BOSS_SPAWNER.get().defaultBlockState());
+				this.level().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.ALPHA_YETI_BOSS_SPAWNER.get().defaultBlockState());
 			}
 			this.discard();
 		} else {
@@ -347,7 +347,7 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 	@Override
 	public boolean causeFallDamage(float distance, float multiplier, DamageSource source) {
 
-		if (!this.getLevel().isClientSide() && isRampaging()) {
+		if (!this.level().isClientSide() && isRampaging()) {
 			this.playSound(TFSounds.ALPHAYETI_ICE.get(), 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			this.hitNearbyEntities();
 		}
@@ -357,7 +357,7 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 	}
 
 	private void hitNearbyEntities() {
-		for (LivingEntity entity : this.getLevel().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(5, 0, 5))) {
+		for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(5, 0, 5))) {
 			if (entity != this && entity.hurt(DamageSource.mobAttack(this), 5F)) {
 				entity.push(0, 0.4, 0);
 			}
@@ -368,8 +368,8 @@ public class AlphaYeti extends Monster implements RangedAttackMob, IHostileMount
 	public void die(DamageSource cause) {
 		super.die(cause);
 		// mark the lair as defeated
-		if (!this.getLevel().isClientSide()) {
-			TFGenerationSettings.markStructureConquered(this.getLevel(), new BlockPos(this.blockPosition()), TFLandmark.YETI_CAVE);
+		if (!this.level().isClientSide()) {
+			TFGenerationSettings.markStructureConquered(this.level(), new BlockPos(this.blockPosition()), TFLandmark.YETI_CAVE);
 			for (ServerPlayer player : this.hurtBy) {
 				TFAdvancements.HURT_BOSS.trigger(player, this);
 			}

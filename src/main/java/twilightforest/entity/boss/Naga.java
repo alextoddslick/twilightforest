@@ -98,7 +98,7 @@ public class Naga extends Monster implements EnforcedHomePoint {
 		}
 
 		this.goNormal();
-		if (this.getLevel().getDifficulty() != Difficulty.NORMAL && this.getAttribute(Attributes.MAX_HEALTH) != null) {
+		if (this.level().getDifficulty() != Difficulty.NORMAL && this.getAttribute(Attributes.MAX_HEALTH) != null) {
 			boolean hard = this.level.getDifficulty() == Difficulty.HARD;
 			Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).addPermanentModifier(new AttributeModifier("Difficulty Health Boost", hard ? 130 : 80, AttributeModifier.Operation.ADDITION));
 			this.setHealth(this.getMaxHealth());
@@ -175,7 +175,7 @@ public class Naga extends Monster implements EnforcedHomePoint {
 
 		super.aiStep();
 
-		if (this.getLevel().isClientSide() || !ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this)) return;
+		if (this.level().isClientSide() || !ForgeEventFactory.getMobGriefingEvent(this.level(), this)) return;
 
 		AABB bb = this.getBoundingBox();
 
@@ -189,11 +189,11 @@ public class Naga extends Monster implements EnforcedHomePoint {
 		BlockPos min = new BlockPos(minx, miny, minz);
 		BlockPos max = new BlockPos(maxx, maxy, maxz);
 
-		if (this.getLevel().hasChunksAt(min, max)) {
+		if (this.level().hasChunksAt(min, max)) {
 			for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
-				BlockState state = this.getLevel().getBlockState(pos);
-				if (state.getMaterial() == Material.LEAVES && EntityUtil.canDestroyBlock(this.getLevel(), pos, state, this)) {
-					this.getLevel().destroyBlock(pos, true);
+				BlockState state = this.level().getBlockState(pos);
+				if (state.getMaterial() == Material.LEAVES && EntityUtil.canDestroyBlock(this.level(), pos, state, this)) {
+					this.level().destroyBlock(pos, true);
 				}
 			}
 		}
@@ -223,7 +223,7 @@ public class Naga extends Monster implements EnforcedHomePoint {
 			this.activateBodySegments();
 		}
 
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			double newSpeed = DEFAULT_SPEED - newSegments * (-0.2F / 12F);
 			if (newSpeed < 0)
 				newSpeed = 0;
@@ -248,7 +248,7 @@ public class Naga extends Monster implements EnforcedHomePoint {
 				double d = this.getRandom().nextGaussian() * 0.02D;
 				double d1 = this.getRandom().nextGaussian() * 0.02D;
 				double d2 = this.getRandom().nextGaussian() * 0.02D;
-				this.getLevel().addParticle((this.getRandom().nextBoolean() ? ParticleTypes.EXPLOSION : ParticleTypes.POOF),
+				this.level().addParticle((this.getRandom().nextBoolean() ? ParticleTypes.EXPLOSION : ParticleTypes.POOF),
 						(this.getX() + this.getRandom().nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(),
 						this.getY() + this.getRandom().nextFloat() * this.getBbHeight(),
 						(this.getZ() + this.getRandom().nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(),
@@ -259,14 +259,14 @@ public class Naga extends Monster implements EnforcedHomePoint {
 		if (this.isDazed()) {
 			for (int i = 0; i < 5; i++) {
 				Vec3 pos = new Vec3(this.getX(), this.getY() + 2.15D, this.getZ()).add(new Vec3(1.5D, 0, 0).yRot((float) Math.toRadians(this.getRandom().nextInt(360))));
-				this.getLevel().addParticle(ParticleTypes.CRIT, pos.x(), pos.y(), pos.z(), 0, 0, 0);
+				this.level().addParticle(ParticleTypes.CRIT, pos.x(), pos.y(), pos.z(), 0, 0, 0);
 			}
 		}
 
 		// update health
 		this.ticksSinceDamaged++;
 
-		if (!this.getLevel().isClientSide() && this.ticksSinceDamaged > TICKS_BEFORE_HEALING && this.ticksSinceDamaged % 20 == 0) {
+		if (!this.level().isClientSide() && this.ticksSinceDamaged > TICKS_BEFORE_HEALING && this.ticksSinceDamaged % 20 == 0) {
 			this.heal(1);
 		}
 
@@ -385,7 +385,7 @@ public class Naga extends Monster implements EnforcedHomePoint {
 				TFPacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ThrowPlayerPacket(motion.x() * 3.0D,  motion.y() + 0.75D, motion.z() * 3.0D));
 			}
 			this.hurt(DamageSource.GENERIC, 4.0F);
-			this.getLevel().playSound(null, toAttack.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 0.8F + this.getLevel().getRandom().nextFloat() * 0.4F);
+			this.level().playSound(null, toAttack.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().getRandom().nextFloat() * 0.4F);
 			this.movementAI.doDaze();
 			return false;
 		}
@@ -414,9 +414,9 @@ public class Naga extends Monster implements EnforcedHomePoint {
 
 	@Override
 	public void checkDespawn() {
-		if (this.getLevel().getDifficulty() == Difficulty.PEACEFUL) {
+		if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
 			if (this.getRestrictCenter() != BlockPos.ZERO) {
-				this.getLevel().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.NAGA_BOSS_SPAWNER.get().defaultBlockState());
+				this.level().setBlockAndUpdate(this.getRestrictCenter(), TFBlocks.NAGA_BOSS_SPAWNER.get().defaultBlockState());
 			}
 			this.discard();
 		} else {
@@ -427,7 +427,7 @@ public class Naga extends Monster implements EnforcedHomePoint {
 	@Override
 	public void remove(RemovalReason reason) {
 		super.remove(reason);
-		if (this.getLevel() instanceof ServerLevel) {
+		if (this.level() instanceof ServerLevel) {
 			for (NagaSegment seg : this.bodySegments) {
 				// must use this instead of setDead
 				// since multiparts are not added to the world tick list which is what checks isDead
@@ -466,7 +466,7 @@ public class Naga extends Monster implements EnforcedHomePoint {
 				double d0 = this.getRandom().nextGaussian() * 0.02D;
 				double d1 = this.getRandom().nextGaussian() * 0.02D;
 				double d2 = this.getRandom().nextGaussian() * 0.02D;
-				this.getLevel().addParticle(ParticleTypes.EXPLOSION,
+				this.level().addParticle(ParticleTypes.EXPLOSION,
 						segment.getX() + this.getRandom().nextFloat() * segment.getBbWidth() * 2.0F - segment.getBbWidth() - d0 * 10.0D,
 						segment.getY() + this.getRandom().nextFloat() * segment.getBbHeight() - d1 * 10.0D,
 						segment.getZ() + this.getRandom().nextFloat() * segment.getBbWidth() * 2.0F - segment.getBbWidth() - d2 * 10.0D,
@@ -542,8 +542,8 @@ public class Naga extends Monster implements EnforcedHomePoint {
 	public void die(DamageSource cause) {
 		super.die(cause);
 		// mark the courtyard as defeated
-		if (!this.getLevel().isClientSide()) {
-			TFGenerationSettings.markStructureConquered(this.getLevel(), this.blockPosition(), TFLandmark.NAGA_COURTYARD);
+		if (!this.level().isClientSide()) {
+			TFGenerationSettings.markStructureConquered(this.level(), this.blockPosition(), TFLandmark.NAGA_COURTYARD);
 			for (ServerPlayer player : this.hurtBy) {
 				TFAdvancements.HURT_BOSS.trigger(player, this);
 			}

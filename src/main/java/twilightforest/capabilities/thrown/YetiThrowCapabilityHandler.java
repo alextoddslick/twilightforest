@@ -64,7 +64,7 @@ public class YetiThrowCapabilityHandler implements YetiThrowCapability {
 	}
 
 	private void sendUpdatePacket() {
-		if (!this.host.getLevel().isClientSide()) {
+		if (!this.host.level().isClientSide()) {
 			TFPacketHandler.CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this.host), new UpdateThrownPacket(this.host, this));
 		}
 	}

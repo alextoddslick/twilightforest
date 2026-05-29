@@ -18,13 +18,13 @@ public class NagaSmashGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		return this.naga.horizontalCollision && ForgeEventFactory.getMobGriefingEvent(this.naga.getLevel(), this.naga);
+		return this.naga.horizontalCollision && ForgeEventFactory.getMobGriefingEvent(this.naga.level(), this.naga);
 	}
 
 	@Override
 	public void start() {
 		// NAGA SMASH!
-		if (this.naga.getLevel().isClientSide()) return;
+		if (this.naga.level().isClientSide()) return;
 
 		AABB bb = this.naga.getBoundingBox();
 
@@ -40,8 +40,8 @@ public class NagaSmashGoal extends Goal {
 
 		if (this.naga.level.hasChunksAt(min, max)) {
 			for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
-				if (EntityUtil.canDestroyBlock(this.naga.getLevel(), pos, this.naga)) {
-					this.naga.getLevel().destroyBlock(pos, true);
+				if (EntityUtil.canDestroyBlock(this.naga.level(), pos, this.naga)) {
+					this.naga.level().destroyBlock(pos, true);
 				}
 			}
 		}

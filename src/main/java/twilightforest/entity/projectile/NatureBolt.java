@@ -55,7 +55,7 @@ public class NatureBolt extends TFThrowable implements ITFProjectile, ItemSuppli
 	public void handleEntityEvent(byte id) {
 		if (id == 3) {
 			for (int i = 0; i < 8; ++i) {
-				this.getLevel().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.OAK_LEAVES.defaultBlockState()), false, this.getX(), this.getY(), this.getZ(), random.nextGaussian() * 0.05D, random.nextDouble() * 0.2D, random.nextGaussian() * 0.05D);
+				this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.OAK_LEAVES.defaultBlockState()), false, this.getX(), this.getY(), this.getZ(), random.nextGaussian() * 0.05D, random.nextDouble() * 0.2D, random.nextGaussian() * 0.05D);
 			}
 		} else {
 			super.handleEntityEvent(id);
@@ -66,16 +66,16 @@ public class NatureBolt extends TFThrowable implements ITFProjectile, ItemSuppli
 	protected void onHitBlock(BlockHitResult result) {
 		super.onHitBlock(result);
 		BlockPos blockPosHit = result.getBlockPos();
-		Material materialHit = this.getLevel().getBlockState(blockPosHit).getMaterial();
+		Material materialHit = this.level().getBlockState(blockPosHit).getMaterial();
 
-		if (ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this)) {
+		if (ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
 			if (materialHit == Material.GRASS) {
 				ItemStack dummy = new ItemStack(Items.BONE_MEAL, 1);
-				if (BoneMealItem.growCrop(dummy, this.getLevel(), blockPosHit)) {
-					this.getLevel().levelEvent(2005, blockPosHit, 0);
+				if (BoneMealItem.growCrop(dummy, this.level(), blockPosHit)) {
+					this.level().levelEvent(2005, blockPosHit, 0);
 				}
-			} else if (materialHit.isSolid() && this.canReplaceBlock(this.getLevel(), blockPosHit)) {
-				this.getLevel().setBlockAndUpdate(blockPosHit, Blocks.BIRCH_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true));
+			} else if (materialHit.isSolid() && this.canReplaceBlock(this.level(), blockPosHit)) {
+				this.level().setBlockAndUpdate(blockPosHit, Blocks.BIRCH_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true));
 			}
 		}
 	}
@@ -87,8 +87,8 @@ public class NatureBolt extends TFThrowable implements ITFProjectile, ItemSuppli
 		Entity entityHit = result.getEntity();
 		if (entityHit instanceof LivingEntity living && (owner == null || (entityHit != owner && entityHit != owner.getVehicle()))) {
 			if (entityHit.hurt(TFDamageSources.leafBrain(this, (LivingEntity) this.getOwner()), 2)
-					&& this.getLevel().getDifficulty() != Difficulty.PEACEFUL) {
-				int poisonTime = this.getLevel().getDifficulty() == Difficulty.HARD ? 7 : 3;
+					&& this.level().getDifficulty() != Difficulty.PEACEFUL) {
+				int poisonTime = this.level().getDifficulty() == Difficulty.HARD ? 7 : 3;
 				living.addEffect(new MobEffectInstance(MobEffects.POISON, poisonTime * 20, 0));
 			}
 		}
@@ -97,8 +97,8 @@ public class NatureBolt extends TFThrowable implements ITFProjectile, ItemSuppli
 	@Override
 	protected void onHit(HitResult result) {
 		super.onHit(result);
-		if (!this.getLevel().isClientSide()) {
-			this.getLevel().broadcastEntityEvent(this, (byte) 3);
+		if (!this.level().isClientSide()) {
+			this.level().broadcastEntityEvent(this, (byte) 3);
 			this.discard();
 		}
 	}

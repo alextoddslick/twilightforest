@@ -120,7 +120,7 @@ public class Yeti extends Monster implements IHostileMount {
 	public void setAngry(boolean anger) {
 		this.entityData.set(ANGER_FLAG, anger);
 
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			if (anger) {
 				if (!Objects.requireNonNull(getAttribute(Attributes.FOLLOW_RANGE)).hasModifier(ANGRY_MODIFIER)) {
 					Objects.requireNonNull(this.getAttribute(Attributes.FOLLOW_RANGE)).addTransientModifier(ANGRY_MODIFIER);

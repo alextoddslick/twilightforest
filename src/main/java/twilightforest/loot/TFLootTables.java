@@ -130,7 +130,7 @@ public class TFLootTables {
 	}
 
 	public static void entityDropsIntoContainer(LivingEntity entity, LootContext lootContext, BlockState blockContaining, BlockPos placement) {
-		if (entity.getLevel() instanceof ServerLevel serverLevel
+		if (entity.level() instanceof ServerLevel serverLevel
 				&& serverLevel.setBlock(placement, blockContaining, DEFAULT_PLACE_FLAG)
 				&& serverLevel.getBlockEntity(placement) instanceof Container container) {
 			LootTable table = serverLevel.getServer().getLootTables().get(entity.getLootTable());

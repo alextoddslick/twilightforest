@@ -67,7 +67,7 @@ public class MosquitoSwarm extends Monster {
 	public boolean doHurtTarget(Entity entity) {
 		if (super.doHurtTarget(entity)) {
 			if (entity instanceof LivingEntity living) {
-				int duration = switch (this.getLevel().getDifficulty()) {
+				int duration = switch (this.level().getDifficulty()) {
 					case EASY -> 7;
 					case HARD -> 30;
 					default -> 15;

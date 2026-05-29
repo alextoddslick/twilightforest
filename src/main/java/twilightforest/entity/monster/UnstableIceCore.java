@@ -75,9 +75,9 @@ public class UnstableIceCore extends BaseIceMob {
 
 		if (this.deathTime == 60) // delay until 3 seconds
 		{
-			if (!this.getLevel().isClientSide()) {
-				boolean mobGriefing = ForgeEventFactory.getMobGriefingEvent(this.getLevel(), this);
-				this.getLevel().explode(this, this.getX(), this.getY(), this.getZ(), UnstableIceCore.EXPLOSION_RADIUS, mobGriefing ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE);
+			if (!this.level().isClientSide()) {
+				boolean mobGriefing = ForgeEventFactory.getMobGriefingEvent(this.level(), this);
+				this.level().explode(this, this.getX(), this.getY(), this.getZ(), UnstableIceCore.EXPLOSION_RADIUS, mobGriefing ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE);
 
 				if (mobGriefing) {
 					this.transformBlocks();
@@ -111,24 +111,24 @@ public class UnstableIceCore extends BaseIceMob {
 	}
 
 	private void transformBlock(BlockPos pos) {
-		BlockState state = this.getLevel().getBlockState(pos);
+		BlockState state = this.level().getBlockState(pos);
 		Block block = state.getBlock();
 
-		if (block.getExplosionResistance() < 8F && state.getDestroySpeed(this.getLevel(), pos) >= 0) {
+		if (block.getExplosionResistance() < 8F && state.getDestroySpeed(this.level(), pos) >= 0) {
 			// todo improve for blocks where state is known? or perhaps if a propertycolor is present
-			int blockColor = state.getMapColor(this.getLevel(), pos).col;
+			int blockColor = state.getMapColor(this.level(), pos).col;
 
 			// do appropriate transformation
 			if (this.shouldTransformGlass(state, pos)) {
-				this.getLevel().setBlockAndUpdate(pos, ColorUtil.STAINED_GLASS.getColor(getClosestDyeColor(blockColor)));
+				this.level().setBlockAndUpdate(pos, ColorUtil.STAINED_GLASS.getColor(getClosestDyeColor(blockColor)));
 			} else if (this.shouldTransformClay(state, pos)) {
-				this.getLevel().setBlockAndUpdate(pos, ColorUtil.TERRACOTTA.getColor(getClosestDyeColor(blockColor)));
+				this.level().setBlockAndUpdate(pos, ColorUtil.TERRACOTTA.getColor(getClosestDyeColor(blockColor)));
 			}
 		}
 	}
 
 	private boolean shouldTransformClay(BlockState state, BlockPos pos) {
-		return state.isRedstoneConductor(this.getLevel(), pos);
+		return state.isRedstoneConductor(this.level(), pos);
 	}
 
 	private boolean shouldTransformGlass(BlockState state, BlockPos pos) {
@@ -136,7 +136,7 @@ public class UnstableIceCore extends BaseIceMob {
 	}
 
 	private boolean isBlockNormalBounds(BlockState state, BlockPos pos) {
-		return Block.isShapeFullBlock(state.getShape(this.getLevel(), pos));
+		return Block.isShapeFullBlock(state.getShape(this.level(), pos));
 	}
 
 	private static DyeColor getClosestDyeColor(int blockColor) {

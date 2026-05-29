@@ -44,7 +44,7 @@ public class PlateauBoss extends Monster implements EnforcedHomePoint {
 
 	@Override
 	public void aiStep() {
-		if (!this.getLevel().isClientSide()) {
+		if (!this.level().isClientSide()) {
 			this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 		}
 	}
@@ -56,9 +56,9 @@ public class PlateauBoss extends Monster implements EnforcedHomePoint {
 
 	@Override
 	public void checkDespawn() {
-		if (this.getLevel().getDifficulty() == Difficulty.PEACEFUL) {
+		if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
 			if (!this.hasRestriction()) {
-				this.getLevel().setBlockAndUpdate(getRestrictCenter(), TFBlocks.FINAL_BOSS_BOSS_SPAWNER.get().defaultBlockState());
+				this.level().setBlockAndUpdate(getRestrictCenter(), TFBlocks.FINAL_BOSS_BOSS_SPAWNER.get().defaultBlockState());
 			}
 			this.discard();
 		} else {
@@ -77,8 +77,8 @@ public class PlateauBoss extends Monster implements EnforcedHomePoint {
 	@Override
 	public void die(DamageSource cause) {
 		super.die(cause);
-		if (!this.getLevel().isClientSide()) {
-			TFGenerationSettings.markStructureConquered(this.getLevel(), this.blockPosition(), TFLandmark.FINAL_CASTLE);
+		if (!this.level().isClientSide()) {
+			TFGenerationSettings.markStructureConquered(this.level(), this.blockPosition(), TFLandmark.FINAL_CASTLE);
 			for(ServerPlayer player : this.hurtBy) {
 				TFAdvancements.HURT_BOSS.trigger(player, this);
 			}
