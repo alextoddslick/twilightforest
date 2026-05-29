@@ -48,6 +48,17 @@ loom {
 // Datagen output is bundled as resources (matches the Forge branch layout).
 sourceSets {
     main {
+        java {
+            // ── Datagen providers deferred to Phase 6 (Forge GatherDataEvent → Fabric DataGeneratorEntrypoint) ──
+            // These are the top-level data/*.java generators (BlockstateGenerator, *LootTables, CraftingGenerator,
+            // DataGenerators, WorldGenerator, …) and data/helpers/** (model/crafting builders). They are dev-time
+            // ONLY, have ZERO runtime importers (verified), and their output is already committed under
+            // src/generated/resources — so excluding them from compilation does not affect the built/running mod.
+            // KEPT: data/tags/** (runtime TagKey holders, used by ~44 core files) and data/custom/** (runtime data).
+            // Re-include and port these to FabricDataGenerator.Pack when Phase 6 lands.
+            exclude 'twilightforest/data/*.java'
+            exclude 'twilightforest/data/helpers/**'
+        }
         resources {
             srcDir 'src/generated/resources'
         }
