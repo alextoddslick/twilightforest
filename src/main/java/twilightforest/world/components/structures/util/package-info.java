@@ -1,7 +1,2 @@
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 package twilightforest.world.components.structures.util;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;

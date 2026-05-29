@@ -14,11 +14,11 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.DeferredRegister;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import twilightforest.util.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import twilightforest.util.RegistryObject;
 import twilightforest.TwilightForestMod;
 import twilightforest.data.tags.CustomTagGenerator;
 import twilightforest.enums.TwilightArmorMaterial;
@@ -198,7 +198,7 @@ public class TFItems {
 		return defaultBuilder().stacksTo(1);
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static void addItemModelProperties() {
 		ItemProperties.register(CUBE_OF_ANNIHILATION.get(), TwilightForestMod.prefix("thrown"), (stack, world, entity, idk) ->
 				CubeOfAnnihilationItem.getThrownUuid(stack) != null ? 1 : 0);
@@ -217,14 +217,14 @@ public class TFItems {
 				return world == null ? 0.0F : (float) (world.dimensionType().natural() ? Mth.frac(world.getMoonPhase() / 8.0f) : this.wobble(world, Math.random()));
 			}
 
-			@OnlyIn(Dist.CLIENT)
+			@Environment(EnvType.CLIENT)
 			double rotation;
-			@OnlyIn(Dist.CLIENT)
+			@Environment(EnvType.CLIENT)
 			double rota;
-			@OnlyIn(Dist.CLIENT)
+			@Environment(EnvType.CLIENT)
 			long lastUpdateTick;
 
-			@OnlyIn(Dist.CLIENT)
+			@Environment(EnvType.CLIENT)
 			private double wobble(Level world, double rotation) {
 				if (world.getGameTime() != this.lastUpdateTick) {
 					this.lastUpdateTick = world.getGameTime();

@@ -23,8 +23,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -126,7 +126,7 @@ public class ForceFieldBlock extends Block implements SimpleWaterloggedBlock {
 		return shape;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean skipRendering(BlockState state, BlockState adjacentState, Direction direction) {
 		if (adjacentState.is(this)) {
 			BooleanProperty opposite = PipeBlock.PROPERTY_BY_DIRECTION.get(direction.getOpposite());

@@ -1,7 +1,2 @@
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 package twilightforest.world.components.feature.config;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;

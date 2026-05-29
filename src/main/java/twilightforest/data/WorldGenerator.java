@@ -22,7 +22,7 @@ import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
-import net.minecraftforge.registries.RegistryObject;
+import twilightforest.util.RegistryObject;
 import org.slf4j.Logger;
 import twilightforest.TwilightForestMod;
 import twilightforest.init.BiomeKeys;

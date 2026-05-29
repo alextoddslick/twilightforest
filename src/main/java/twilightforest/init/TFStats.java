@@ -5,8 +5,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import twilightforest.util.DeferredRegister;
+import twilightforest.util.RegistryObject;
 import twilightforest.TwilightForestMod;
 
 import java.util.ArrayList;

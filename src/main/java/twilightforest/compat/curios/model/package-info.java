@@ -1,7 +1,2 @@
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 package twilightforest.compat.curios.model;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;

@@ -1,6 +1,1 @@
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 package twilightforest.world.components.structures.courtyard;
-
-import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;

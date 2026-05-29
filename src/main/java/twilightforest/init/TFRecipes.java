@@ -4,9 +4,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
-import net.minecraftforge.registries.DeferredRegister;
+import twilightforest.util.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import twilightforest.util.RegistryObject;
 import twilightforest.TwilightForestMod;
 import twilightforest.item.recipe.*;
 

@@ -2,9 +2,9 @@ package twilightforest.init;
 
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraftforge.registries.DeferredRegister;
+import twilightforest.util.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import twilightforest.util.RegistryObject;
 import twilightforest.TwilightForestMod;
 import twilightforest.enchantment.*;
 import twilightforest.item.ChainBlockItem;

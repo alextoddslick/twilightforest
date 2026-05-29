@@ -3,11 +3,11 @@ package twilightforest.init;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.DeferredRegister;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import twilightforest.util.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import twilightforest.util.RegistryObject;
 import twilightforest.TwilightForestMod;
 import twilightforest.block.entity.*;
 import twilightforest.init.TFBlocks;
@@ -101,7 +101,7 @@ public class TFBlockEntities {
 	public static final RegistryObject<BlockEntityType<RedThreadBlockEntity>> RED_THREAD = BLOCK_ENTITIES.register("red_thread", () ->
 			BlockEntityType.Builder.of(RedThreadBlockEntity::new, TFBlocks.RED_THREAD.get()).build(null));
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static void registerTileEntityRenders() {
 		// tile entities
 		BlockEntityRenderers.register(FIREFLY.get(), FireflyTileEntityRenderer::new);

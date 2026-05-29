@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import twilightforest.block.entity.CarminiteBuilderBlockEntity;
 import twilightforest.enums.TowerDeviceVariant;
 import twilightforest.init.TFBlockEntities;
@@ -108,7 +108,7 @@ public class BuilderBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		if (state.getValue(STATE) == TowerDeviceVariant.BUILDER_ACTIVE) {
 			this.sparkle(level, pos);

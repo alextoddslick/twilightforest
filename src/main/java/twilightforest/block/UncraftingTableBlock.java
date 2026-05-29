@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import twilightforest.init.TFSounds;
 import twilightforest.init.TFStats;
@@ -30,7 +29,7 @@ public class UncraftingTableBlock extends Block {
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
 	public UncraftingTableBlock() {
-		super(Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD));
+		super(Properties.of().strength(2.5F).sound(SoundType.WOOD));
 		this.registerDefaultState(this.getStateDefinition().any().setValue(POWERED, false));
 	}
 

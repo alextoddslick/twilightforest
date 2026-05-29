@@ -9,7 +9,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import twilightforest.init.TFParticleType;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class LeafParticleData implements ParticleOptions {
 	public final int r;
@@ -22,7 +22,7 @@ public class LeafParticleData implements ParticleOptions {
 		this.b = b;
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public ParticleType<?> getType() {
 		return TFParticleType.FALLEN_LEAF.get();
@@ -37,22 +37,22 @@ public class LeafParticleData implements ParticleOptions {
 	}
 
 	@Override
-	public void writeToNetwork(@Nonnull FriendlyByteBuf buf) {
+	public void writeToNetwork(@NotNull FriendlyByteBuf buf) {
 		buf.writeVarInt(r);
 		buf.writeVarInt(g);
 		buf.writeVarInt(b);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public String writeToString() {
 		return String.format("%d %d %d", r, g, b);
 	}
 
 	public static class Deserializer implements ParticleOptions.Deserializer<LeafParticleData> {
-		@Nonnull
+		@NotNull
 		@Override
-		public LeafParticleData fromCommand(@Nonnull ParticleType<LeafParticleData> type, @Nonnull StringReader reader) throws CommandSyntaxException {
+		public LeafParticleData fromCommand(@NotNull ParticleType<LeafParticleData> type, @NotNull StringReader reader) throws CommandSyntaxException {
 			reader.skipWhitespace();
 			int r = reader.readInt();
 			reader.skipWhitespace();
@@ -62,9 +62,9 @@ public class LeafParticleData implements ParticleOptions {
 			return new LeafParticleData(r, g, b);
 		}
 
-		@Nonnull
+		@NotNull
 		@Override
-		public LeafParticleData fromNetwork(@Nonnull ParticleType<LeafParticleData> type, FriendlyByteBuf buf) {
+		public LeafParticleData fromNetwork(@NotNull ParticleType<LeafParticleData> type, FriendlyByteBuf buf) {
 			return new LeafParticleData(buf.readVarInt(), buf.readVarInt(), buf.readVarInt());
 		}
 	}

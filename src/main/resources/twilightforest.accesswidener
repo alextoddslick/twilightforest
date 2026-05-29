@@ -116,3 +116,19 @@ accessible	class	net/minecraft/world/level/levelgen/structure/StructurePiece$Blo
 #                           widen each accessed member individually, or use a Mixin accessor.
 # ChunkGeneratorTFBase      `public-f NoiseBasedChunkGenerator` (whole class) → widen specific members.
 # TFStructureStart          `public-f StructureStart` (whole class) → widen specific members.
+
+# ── ACTIVE additions (field descriptors verified via javap against the 1.20.1 jar) ──
+# Entity.level (1.20: now private, level() getter)
+accessible	field	net/minecraft/world/entity/Entity	level	Lnet/minecraft/world/level/Level;
+# Parrot.MOB_SOUND_MAP (TFSounds)
+accessible	field	net/minecraft/world/entity/animal/Parrot	MOB_SOUND_MAP	Ljava/util/Map;
+# StructurePiece.rotation/mirror/orientation (private in 1.20)
+accessible	field	net/minecraft/world/level/levelgen/structure/StructurePiece	rotation	Lnet/minecraft/world/level/block/Rotation;
+accessible	field	net/minecraft/world/level/levelgen/structure/StructurePiece	mirror	Lnet/minecraft/world/level/block/Mirror;
+accessible	field	net/minecraft/world/level/levelgen/structure/StructurePiece	orientation	Lnet/minecraft/core/Direction;
+# StructurePiecesBuilder.pieces
+accessible	field	net/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder	pieces	Ljava/util/List;
+# StructureTemplate.StructureBlockInfo pos/state/nbt (package-private in 1.20)
+accessible	field	net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo	pos	Lnet/minecraft/core/BlockPos;
+accessible	field	net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo	state	Lnet/minecraft/world/level/block/state/BlockState;
+accessible	field	net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo	nbt	Lnet/minecraft/nbt/CompoundTag;

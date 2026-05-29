@@ -41,7 +41,7 @@ import java.util.List;
 public class GraveyardFeature extends Feature<NoneFeatureConfiguration> {
 	private static final ResourceLocation GRAVEYARD = TwilightForestMod.prefix("feature/graveyard/graveyard");
 	private static final ResourceLocation TRAP = TwilightForestMod.prefix("feature/graveyard/grave_trap");
-	private static final ImmutableSet<Material> MATERIAL_WHITELIST = ImmutableSet.of(Material.DIRT, Material.GRASS, Material.LEAVES, Material.WOOD, Material.PLANT, Material.STONE);
+	private static final ImmutableSet<Material> MATERIAL_WHITELIST = ImmutableSet.of().mapColor(Material.GRASS, Material.LEAVES, Material.WOOD, Material.PLANT, Material.STONE);
 
 	public GraveyardFeature(Codec<NoneFeatureConfiguration> config) {
 		super(config);

@@ -22,10 +22,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import twilightforest.block.entity.CinderFurnaceBlockEntity;
 import twilightforest.init.TFBlockEntities;
 
@@ -37,7 +36,7 @@ public class CinderFurnaceBlock extends BaseEntityBlock {
 	private static final DirectionProperty FACING = TFHorizontalBlock.FACING;
 
 	public CinderFurnaceBlock() {
-		super(Properties.of(Material.WOOD).requiresCorrectToolForDrops().strength(7.0F).lightLevel((state) -> 15));
+		super(Properties.of().requiresCorrectToolForDrops().strength(7.0F).lightLevel((state) -> 15));
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(LIT, false));
 	}
 
@@ -94,7 +93,7 @@ public class CinderFurnaceBlock extends BaseEntityBlock {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		if (state.getValue(LIT)) {

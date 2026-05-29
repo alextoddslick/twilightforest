@@ -20,14 +20,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 import twilightforest.init.TFDamageSources;
 import twilightforest.init.TFSounds;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class SlideBlock extends Entity implements IEntityAdditionalSpawnData {
@@ -175,19 +175,19 @@ public class SlideBlock extends Entity implements IEntityAdditionalSpawnData {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean displayFireAnimation() {
 		return false;
 	}
 
 	@Override
-	protected void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+	protected void readAdditionalSaveData(@NotNull CompoundTag compound) {
 		this.slideTime = compound.getInt("Time");
 		this.entityData.set(MOVE_DIRECTION, Direction.from3DDataValue(compound.getByte("Direction")));
 	}
 
 	@Override
-	protected void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+	protected void addAdditionalSaveData(@NotNull CompoundTag compound) {
 		compound.putInt("Time", this.slideTime);
 		compound.putByte("Direction", (byte) this.entityData.get(MOVE_DIRECTION).get3DDataValue());
 	}

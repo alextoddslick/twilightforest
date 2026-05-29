@@ -17,7 +17,7 @@ import twilightforest.TwilightForestMod;
 import twilightforest.init.TFRecipes;
 import twilightforest.init.TFSounds;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -75,9 +75,9 @@ public class TransformPowderItem extends Item {
 		return flag.get() ? InteractionResult.SUCCESS : InteractionResult.PASS;
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, @Nonnull InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand hand) {
 		if (level.isClientSide()) {
 			AABB area = this.getEffectAABB(player);
 

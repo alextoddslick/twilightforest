@@ -10,6 +10,33 @@
 
 ---
 
+## 📉 Compile-error burndown (`./gradlew compileJava`)
+
+| Step | Errors | Δ |
+|---|---:|---:|
+| Baseline (foundation only) | **8,140** | — |
+| Mechanical renames: `@OnlyIn`→`@Environment`, `javax.annotation`→`org.jetbrains`, drop nonnull-meta | 7,431 | −709 |
+| Access-widener field entries (Entity.level, Parrot.MOB_SOUND_MAP, StructurePiece.*, StructureBlockInfo.*) — descriptors verified via `javap` | 7,215 | −216 |
+| Global `RegistryObject`/`DeferredRegister` import → shim; `MaterialColor`→`MapColor` | 6,713 | −502 |
+| `BlockBehaviour.Properties.of(Material[, color])` → `of()[.mapColor(color)]` | **6,545** | −168 |
+
+**~20% cleared by safe, verified mechanical passes.** The remaining ~6,545 are genuine subsystem rewrites (see
+"What's left" below) — they need per-file engineering and are interdependent, so error count now drops in vertical
+slices (a whole subsystem at a time), not via global scripts.
+
+### What's left (by the numbers, largest first)
+- **Datagen model providers** (~500: `ModelFile`, `BlockModelBuilder`, `ConfiguredModel`, `ExistingFileHelper`, `getMultipartBuilder`, `models()`) — Forge datagen → Fabric `FabricModelProvider`/data-gen API. Isolated to `data/`. (Phase 6)
+- **`Material` removal — behavior fidelity** (~150: `state.getMaterial()`, `Material.X` comparisons) — semantic; map to `state.liquid()`/`state.isSolid()`/`blocksMotion()`/tags. NOTE: the `Properties.of()` script above dropped Material's *implied* behavior (non-solid PLANT, no-collision BARRIER, flammability) — blocks need explicit `.noCollission()`/`.replaceable()`/etc. for parity. **Sharp edge.**
+- **`getLevel()` → `level()`** (~191) — only on `Entity` subclasses (BlockEntity/UseOnContext keep `getLevel()`), so it's receiver-type-dependent — not a blind replace.
+- **Registration create() mapping** — `ForgeRegistries.X`/`Registry.X_REGISTRY` → `BuiltInRegistries.Y` in `init/*` (static) ; dynamic ones (biomes/features/structures/dimensions) → Phase 4 datapack JSON.
+- **Events** (`@SubscribeEvent` ×65 + Forge event classes) → Fabric callbacks + mixins (Phase 2).
+- **Networking** (`SimpleChannel`/`PacketDistributor`) → `ServerPlay/ClientPlayNetworking` (Phase 2).
+- **Config** (`ForgeConfigSpec` ×41) → POJO+Gson (Phase 7).
+- **Vector3f/Matrix4f/Quaternion** (~90) → JOML (`org.joml.*`) + `Axis.rotationDegrees` (client/render).
+- **Worldgen codecs** (`BIOME_REGISTRY` static refs ×50, ChunkGenerator/BiomeSource codecs) → `RegistryOps` context (Phase 4 — the long pole).
+
+---
+
 ## ⚠️ Read this first: what this actually is
 
 The official `1.19.2` branch is the **Forge** build (it is *not*, and never was, a Fabric mod — every TeamTwilight

@@ -16,11 +16,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraftforge.network.NetworkHooks;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
@@ -106,7 +106,7 @@ public class CharmEffect extends Entity implements ItemSupplier {
 		this.newPosRotationIncrements = posRotationIncrements;
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
@@ -146,7 +146,7 @@ public class CharmEffect extends Entity implements ItemSupplier {
 	protected void addAdditionalSaveData(CompoundTag cmp) {
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public ItemStack getItem() {
 		return this.getItemID();

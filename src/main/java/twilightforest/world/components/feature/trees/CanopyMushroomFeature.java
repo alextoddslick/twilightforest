@@ -15,9 +15,7 @@ import twilightforest.init.TFBlocks;
 import twilightforest.util.FeatureLogic;
 import twilightforest.util.VoxelBresenhamIterator;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 
-@ParametersAreNonnullByDefault
 public abstract class CanopyMushroomFeature extends AbstractHugeMushroomFeature {
     private int bugsLeft;
 

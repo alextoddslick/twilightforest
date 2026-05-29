@@ -2,9 +2,9 @@ package twilightforest.init;
 
 import com.mojang.serialization.Codec;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.registries.DeferredRegister;
+import twilightforest.util.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import twilightforest.util.RegistryObject;
 import twilightforest.TwilightForestMod;
 import twilightforest.loot.modifiers.FieryToolSmeltingModifier;
 import twilightforest.loot.modifiers.GiantToolGroupingModifier;

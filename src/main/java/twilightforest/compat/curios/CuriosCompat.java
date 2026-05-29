@@ -27,7 +27,7 @@ import twilightforest.item.TrophyItem;
 import twilightforest.network.CreateMovingCicadaSoundPacket;
 import twilightforest.network.TFPacketHandler;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public class CuriosCompat {
@@ -44,7 +44,7 @@ public class CuriosCompat {
 				return stack;
 			}
 
-			@Nonnull
+			@NotNull
 			@Override
 			public SoundInfo getEquipSound(SlotContext slotContext) {
 				return new SoundInfo(SoundEvents.ARMOR_EQUIP_GENERIC, 1.0F, 1.0F);

@@ -1,6 +1,6 @@
 package twilightforest.client;
 
-import net.minecraftforge.api.distmarker.Dist;
+import net.fabricmc.api.EnvType;
 import net.minecraftforge.fml.DistExecutor;
 
 import java.util.function.Supplier;

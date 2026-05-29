@@ -11,7 +11,7 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.Enchantments;
 import twilightforest.init.TFEnchantments;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class FireReactEnchantment extends LootOnlyEnchantment {
 

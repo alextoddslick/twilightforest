@@ -14,7 +14,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import twilightforest.block.entity.GrowingBeanstalkBlockEntity;
 import twilightforest.init.TFBlockEntities;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class GrowingBeanstalkBlock extends BaseEntityBlock {
 	public GrowingBeanstalkBlock(Properties properties) {

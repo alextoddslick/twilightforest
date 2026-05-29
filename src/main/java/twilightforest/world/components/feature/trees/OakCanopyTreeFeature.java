@@ -16,11 +16,9 @@ import twilightforest.util.FeaturePlacers;
 import twilightforest.util.FeatureUtil;
 import twilightforest.world.components.feature.config.TFTreeFeatureConfig;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-@ParametersAreNonnullByDefault
 public class OakCanopyTreeFeature extends CanopyTreeFeature {
 
 	private final List<BlockPos> leaves = Lists.newArrayList();

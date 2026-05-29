@@ -9,7 +9,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.state.BlockState;
 import twilightforest.data.tags.BlockTagGenerator;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class MazebreakerPickItem extends PickaxeItem {
 	public MazebreakerPickItem(Tier material, Properties properties) {
@@ -28,7 +28,7 @@ public class MazebreakerPickItem extends PickaxeItem {
 	}
 
 	@Override
-	public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
+	public float getDestroySpeed(@NotNull ItemStack stack, BlockState state) {
 		float destroySpeed = super.getDestroySpeed(stack, state);
 		return state.is(BlockTagGenerator.MAZEBREAKER_ACCELERATED) ? destroySpeed * 16.0F : destroySpeed;
 	}

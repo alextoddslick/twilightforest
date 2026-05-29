@@ -8,8 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LightLayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 //same glowy logic as FireflyParticle, but we movin'
 public class WanderingFireflyParticle extends TextureSheetParticle {
@@ -71,7 +71,7 @@ public class WanderingFireflyParticle extends TextureSheetParticle {
 		return 0xF000F0;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public record Factory(SpriteSet sprite) implements ParticleProvider<SimpleParticleType> {
 
 		@Override
@@ -84,7 +84,7 @@ public class WanderingFireflyParticle extends TextureSheetParticle {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public record FromJarFactory(SpriteSet sprite) implements ParticleProvider<SimpleParticleType> {
 
 		@Override

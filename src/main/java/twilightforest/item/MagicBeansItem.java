@@ -19,7 +19,7 @@ import twilightforest.TwilightForestMod;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFSounds;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class MagicBeansItem extends Item {
 
@@ -27,7 +27,7 @@ public class MagicBeansItem extends Item {
 		super(properties);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level level = context.getLevel();

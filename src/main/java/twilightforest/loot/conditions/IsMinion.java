@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import twilightforest.entity.monster.CarminiteGhastling;
 import twilightforest.init.TFLoot;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public record IsMinion(boolean inverse) implements LootItemCondition {
 
@@ -22,7 +22,7 @@ public record IsMinion(boolean inverse) implements LootItemCondition {
 	}
 
 	@Override
-	public boolean test(@Nonnull LootContext context) {
+	public boolean test(@NotNull LootContext context) {
 		return context.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof CarminiteGhastling ghastling && ghastling.isMinion() == !inverse;
 	}
 

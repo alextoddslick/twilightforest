@@ -10,12 +10,12 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraftforge.client.model.data.ModelData;
 import twilightforest.init.TFSounds;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class GhastTearParticle extends TextureSheetParticle {
 
 	public GhastTearParticle(ClientLevel level, double x, double y, double z, Item item) {
@@ -54,7 +54,7 @@ public class GhastTearParticle extends TextureSheetParticle {
 		super.tick();
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static class Factory implements ParticleProvider<SimpleParticleType> {
 		@Override
 		public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {

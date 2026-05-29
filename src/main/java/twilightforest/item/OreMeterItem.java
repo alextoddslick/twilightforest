@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import twilightforest.TwilightForestMod;
 import twilightforest.init.TFBlocks;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
@@ -25,9 +25,9 @@ public class OreMeterItem extends Item {
 		super(properties);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, @Nonnull InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand hand) {
 		int useX = Mth.floor(player.getX());
 		int useZ = Mth.floor(player.getZ());
 

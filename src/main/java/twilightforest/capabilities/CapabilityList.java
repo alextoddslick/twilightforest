@@ -18,7 +18,7 @@ import twilightforest.capabilities.shield.ShieldCapabilityHandler;
 import twilightforest.capabilities.thrown.YetiThrowCapability;
 import twilightforest.capabilities.thrown.YetiThrowCapabilityHandler;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class CapabilityList {
 
@@ -44,9 +44,9 @@ public class CapabilityList {
 					return i;
 				});
 
-				@Nonnull
+				@NotNull
 				@Override
-				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, Direction facing) {
+				public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, Direction facing) {
 					return SHIELDS.orEmpty(capability, inst.cast());
 				}
 

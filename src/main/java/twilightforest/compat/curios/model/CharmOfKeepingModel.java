@@ -9,7 +9,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class CharmOfKeepingModel extends HumanoidModel<LivingEntity> {
 
@@ -28,13 +28,13 @@ public class CharmOfKeepingModel extends HumanoidModel<LivingEntity> {
 		return LayerDefinition.create(meshDefinition, 32, 16);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected Iterable<ModelPart> headParts() {
 		return ImmutableList.of();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected Iterable<ModelPart> bodyParts() {
 		return ImmutableList.of(this.body);

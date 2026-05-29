@@ -20,8 +20,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraftforge.event.ForgeEventFactory;
 import twilightforest.data.tags.BlockTagGenerator;
 import twilightforest.init.TFDamageSources;
@@ -50,7 +50,7 @@ public class NatureBolt extends TFThrowable implements ITFProjectile, ItemSuppli
 		return 0.003F;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	@Override
 	public void handleEntityEvent(byte id) {
 		if (id == 3) {

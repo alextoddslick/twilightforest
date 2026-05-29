@@ -30,8 +30,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.PacketDistributor;
 import twilightforest.init.TFEntities;
@@ -116,7 +116,7 @@ public class ASMHooks {
 	 * {@link net.minecraft.client.sounds.MusicManager#tick()}<br>
 	 * [AFTER FIRST INVOKEVIRTUAL]
 	 */
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static Music music(Music music) {
 		if (Minecraft.getInstance().level != null && Minecraft.getInstance().player != null && (music == Musics.CREATIVE || music == Musics.UNDER_WATER) && TFGenerationSettings.isTwilightWorldOnClient(Minecraft.getInstance().level))
 			return Minecraft.getInstance().level.getBiomeManager().getNoiseBiomeAtPosition(Minecraft.getInstance().player.blockPosition()).value().getBackgroundMusic().orElse(Musics.GAME);
@@ -141,7 +141,7 @@ public class ASMHooks {
 	 * [BEFORE LAST ARETURN]
 	 */
 	@Nullable
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static EntityRenderer<?> getMultipartRenderer(@Nullable EntityRenderer<?> renderer, Entity entity) {
 		if(entity instanceof TFPart<?>)
 			return TFEntities.BakedMultiPartRenderers.lookup(((TFPart<?>) entity).renderer());
@@ -153,7 +153,7 @@ public class ASMHooks {
 	 * {@link net.minecraft.client.renderer.entity.EntityRenderDispatcher#onResourceManagerReload(ResourceManager)}<br>
 	 * [AFTER FIRST INVOKESPECIAL]
 	 */
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static EntityRendererProvider.Context bakeMultipartRenders(EntityRendererProvider.Context context) {
 		TFEntities.BakedMultiPartRenderers.bakeMultiPartRenderers(context);
 		return context;
