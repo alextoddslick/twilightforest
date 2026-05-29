@@ -132,3 +132,30 @@ accessible	field	net/minecraft/world/level/levelgen/structure/pieces/StructurePi
 accessible	field	net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo	pos	Lnet/minecraft/core/BlockPos;
 accessible	field	net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo	state	Lnet/minecraft/world/level/block/state/BlockState;
 accessible	field	net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo	nbt	Lnet/minecraft/nbt/CompoundTag;
+
+# ── ACTIVE batch 2: members surfaced by compile errors (descriptors via javap) ──
+accessible	method	net/minecraft/world/level/block/FireBlock	setFlammable	(Lnet/minecraft/world/level/block/Block;II)V
+accessible	method	net/minecraft/world/level/block/ComposterBlock	add	(FLnet/minecraft/world/level/ItemLike;)V
+accessible	method	net/minecraft/world/level/block/state/properties/WoodType	register	(Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;
+accessible	method	net/minecraft/client/renderer/block/model/BlockElement	uvsByFace	(Lnet/minecraft/core/Direction;)[F
+accessible	method	net/minecraft/world/level/saveddata/maps/MapItemSavedData	<init>	(IIBZZZLnet/minecraft/resources/ResourceKey;)V
+accessible	field	net/minecraft/world/entity/Entity	onGround	Z
+accessible	field	net/minecraft/world/entity/Entity	dimensions	Lnet/minecraft/world/entity/EntityDimensions;
+accessible	field	net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity	litTime	I
+accessible	field	net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity	cookingProgress	I
+accessible	field	net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity	cookingTotalTime	I
+accessible	field	net/minecraft/world/entity/ai/goal/GoalSelector	availableGoals	Ljava/util/Set;
+accessible	field	net/minecraft/world/level/biome/Biome	TEMPERATURE_NOISE	Lnet/minecraft/world/level/levelgen/synth/PerlinSimplexNoise;
+accessible	field	net/minecraft/world/level/saveddata/maps/MapItemSavedData	bannerMarkers	Ljava/util/Map;
+accessible	field	net/minecraft/world/level/saveddata/maps/MapItemSavedData	decorations	Ljava/util/Map;
+accessible	field	net/minecraft/world/level/saveddata/maps/MapItemSavedData	frameMarkers	Ljava/util/Map;
+accessible	field	net/minecraft/world/level/saveddata/maps/MapItemSavedData	trackedDecorationCount	I
+accessible	field	net/minecraft/world/level/block/DispenserBlock	DISPENSER_REGISTRY	Ljava/util/Map;
+accessible	field	net/minecraft/client/gui/components/AbstractWidget	x	I
+accessible	field	net/minecraft/client/gui/components/AbstractWidget	y	I
+accessible	field	net/minecraft/client/model/geom/LayerDefinitions	OUTER_ARMOR_DEFORMATION	Lnet/minecraft/client/model/geom/builders/CubeDeformation;
+accessible	field	net/minecraft/client/model/geom/LayerDefinitions	INNER_ARMOR_DEFORMATION	Lnet/minecraft/client/model/geom/builders/CubeDeformation;
+accessible	field	net/minecraft/client/multiplayer/ClientAdvancements	progress	Ljava/util/Map;
+accessible	field	net/minecraft/client/renderer/LevelRenderer	skyBuffer	Lcom/mojang/blaze3d/vertex/VertexBuffer;
+accessible	field	net/minecraft/client/renderer/LevelRenderer	darkBuffer	Lcom/mojang/blaze3d/vertex/VertexBuffer;
+accessible	field	net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecorator$Context	decorationSetter	Ljava/util/function/BiConsumer;
