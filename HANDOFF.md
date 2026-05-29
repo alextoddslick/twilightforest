@@ -18,9 +18,20 @@
 | Mechanical renames: `@OnlyIn`→`@Environment`, `javax.annotation`→`org.jetbrains`, drop nonnull-meta | 7,431 | −709 |
 | Access-widener field entries (Entity.level, Parrot.MOB_SOUND_MAP, StructurePiece.*, StructureBlockInfo.*) — descriptors verified via `javap` | 7,215 | −216 |
 | Global `RegistryObject`/`DeferredRegister` import → shim; `MaterialColor`→`MapColor` | 6,713 | −502 |
-| `BlockBehaviour.Properties.of(Material[, color])` → `of()[.mapColor(color)]` | **6,545** | −168 |
+| `BlockBehaviour.Properties.of(Material[, color])` → `of()[.mapColor(color)]` | 6,545 | −168 |
+| Defer datagen providers (`data/*.java` + `data/helpers/**`) from core compile | 4,632 | −1,913 |
+| Access-widener batch 2 (25 members, javap-verified descriptors) | 4,429 | −203 |
+| Error-guided `Entity.getLevel()` → `level()` (569 flagged sites) | 3,876 | −553 |
+| `Material` method-call collapse + registration `create()` mapping | **3,813** | −732 |
 
-**~20% cleared by safe, verified mechanical passes.** The remaining ~6,545 are genuine subsystem rewrites (see
+**~53% cleared by safe, verified mechanical passes (8 slices, each recompiled + committed).**
+The remaining ~3,813 are genuine subsystem rewrites — error count now drops per-subsystem, not via global scripts.
+
+### Current error distribution (per package)
+`client 655` (renderers + JOML, Phase 6) · `entity 644` (Forge entity APIs, 1.19.4 damage-source rewrite, multipart) ·
+`data 359` (tag-provider split + `data/custom` runtime) · `compat 330` (Curios→Trinkets, Phase 7) ·
+`world 321` (codecs via RegistryOps, Phase 4) · `init 312` (CreativeModeTab/EntityType.Builder + content deps) ·
+`item 310` / `block 204` (Forge item/block extension APIs) · `events 170` (Phase 2) · `capabilities 74` · `network 62`. The remaining ~6,545 are genuine subsystem rewrites (see
 "What's left" below) — they need per-file engineering and are interdependent, so error count now drops in vertical
 slices (a whole subsystem at a time), not via global scripts.
 
